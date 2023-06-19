@@ -1,9 +1,9 @@
 @charset 'utf-8';
 
-@use 'sass-rem';
+@import 'sass-rem';
 
-@use 'fonts';
-@use 'functions';
-@use 'mixins';
-@use 'typography';
-@use 'variables';
+// Partials
+@import 'colors';
+@import 'mixins';
+@import 'typography';
+@import 'variables';

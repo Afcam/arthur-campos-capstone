@@ -76,7 +76,7 @@ Mixins
 }
 
 @mixin visible($state: 'block') {
-  display: string.unquote($state);
+  display: unquote($state);
   visibility: visible;
 }
 

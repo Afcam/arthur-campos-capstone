@@ -15,12 +15,16 @@
     "lint:fix": "npm run lint:eslint:fix && npm run lint:stylelint:fix"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@mantine/core": "^6.0.13",
+    "@mantine/hooks": "^6.0.13",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.13.0",
-    "sass": "^1.63.4"
+    "sass": "^1.63.4",
+    "sass-rem": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
