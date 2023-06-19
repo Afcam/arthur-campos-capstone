@@ -1,0 +1,17 @@
+@import '@/styles/all';
+
+.header {
+  background-color: #f8f9fa;
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  &__container {
+    @include push-auto;
+    @include soft-sides(rem(16px));
+
+    max-width: 68.75rem;
+  }
+}

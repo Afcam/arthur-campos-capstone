@@ -1,9 +1,14 @@
 // interface Props {}
 
+import Logo from '../Logo/Logo';
+import './Header.scss';
+
 export default function Header() {
   return (
-    <footer className="header">
-      <div className="header">p.</div>
-    </footer>
+    <header className="header">
+      <div className="header__container">
+        <Logo />
+      </div>
+    </header>
   );
 }
