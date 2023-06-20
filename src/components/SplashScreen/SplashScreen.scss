@@ -2,4 +2,8 @@
 
 .splash-screen {
   @include push-auto;
+
+  display: flex;
+  justify-content: center;
+  float: 1;
 }

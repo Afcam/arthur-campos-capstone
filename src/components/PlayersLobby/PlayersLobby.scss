@@ -1,0 +1,8 @@
+@import '@/styles/all';
+
+.players-lobby {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  gap: $page-gutter;
+}

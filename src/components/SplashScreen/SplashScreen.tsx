@@ -11,12 +11,15 @@ import {
 import { useRef, useState } from 'react';
 import { createGameRoom, joinGameRoom } from '@/utils/api';
 import './SplashScreen.scss';
+import { useNavigate } from 'react-router-dom';
 
 export default function SplashScreen() {
   const [activeState, setActiveState] = useState(1);
   const roomIdRef = useRef();
+  const navigate = useNavigate();
 
   const handleNewGame = async () => {
+    navigate('/lobby');
     try {
       const token = await createGameRoom();
       console.log(token);
@@ -26,6 +29,7 @@ export default function SplashScreen() {
   };
 
   const handleJoinGame = async () => {
+    navigate('/lobby');
     try {
       if (roomIdRef.current) {
         const roomId = roomIdRef.current.value;
