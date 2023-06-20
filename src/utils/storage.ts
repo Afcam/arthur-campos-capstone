@@ -1,14 +1,13 @@
-const storagePrefix = 'cap_';
-
 const storage = {
-  getToken: () => {
-    return JSON.parse(window.localStorage.getItem(`${storagePrefix}token`) as string);
+  getToken: (): string | null => {
+    const token = window.localStorage.getItem('token');
+    return token ? JSON.parse(token) : null;
   },
-  setToken: (token: string) => {
-    window.localStorage.setItem(`${storagePrefix}token`, JSON.stringify(token));
+  setToken: (token: string): void => {
+    window.localStorage.setItem('token', JSON.stringify(token));
   },
-  clearToken: () => {
-    window.localStorage.removeItem(`${storagePrefix}token`);
+  clearToken: (): void => {
+    window.localStorage.removeItem('token');
   },
 };
 
