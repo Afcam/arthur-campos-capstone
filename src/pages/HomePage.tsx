@@ -24,10 +24,10 @@ export default function HomePage() {
   // };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <SplashScreen />
-      <EnterForm />
-      <Footer />
+      {/* <EnterForm /> */}
+      {/* <Footer /> */}
     </>
   );
 }
