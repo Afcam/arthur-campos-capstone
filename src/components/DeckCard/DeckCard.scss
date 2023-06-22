@@ -1,0 +1,109 @@
+@import '@/styles/all';
+
+.deck-card {
+  width: 300px;
+  height: fit-content;
+  overflow: hidden;
+  text-align: left;
+  background-color: $color-canvas-subtle;
+
+  border-radius: rem(12px);
+  border-radius: $border-radius-large;
+  border: $border-width-thicker solid $color-border-default;
+
+  &:hover {
+    // border-width: $border-width-thicker;
+    background-color: rgba(27, 27, 175, 0.418);
+  }
+
+  &--attack {
+    // border: $border-width-thicker solid $color-border-default;
+
+    border-color: yellow;
+  }
+
+  &--neutral {
+    border-color: rgb(172, 172, 155);
+  }
+
+  &--defense {
+    border-color: green;
+  }
+  &__header {
+    @include soft-sides($base-size-8);
+
+    padding-top: $base-size-8;
+    width: 100%;
+    height: fit-content;
+  }
+
+  &__tab {
+    @include soft-sides($base-size-16);
+    @include soft-ends($base-size-8);
+
+    background-color: $color-canvas-default;
+    border-top-left-radius: $border-radius-medium;
+    border-top-right-radius: $border-radius-medium;
+    border-top: $border-width-thin solid $color-border-default;
+    border-left: $border-width-thin solid $color-border-default;
+    border-right: $border-width-thin solid $color-border-default;
+
+    color: $color-fg-default;
+
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    column-gap: $base-size-16;
+  }
+
+  &__title {
+    font-family: 'Fira Code';
+    font-size: rem(20px);
+    // line-height: rem(28px);
+    font-weight: 400;
+  }
+
+  &__main {
+    padding: $base-size-16;
+
+    height: 100%;
+    background-color: $color-canvas-default;
+    border-top: $border-width-thin solid $color-border-default;
+
+    display: flex;
+  }
+
+  &__number {
+    color: $color-fg-subtle;
+
+    font-family: 'Fira Code';
+    font-size: rem(20px);
+    // line-height: rem(28px);
+    font-weight: 400;
+    padding-right: $base-size-8;
+  }
+
+  &__code {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.hl {
+  color: $color-fg-default;
+  font-family: 'Fira Code';
+  font-size: rem(20px);
+  // line-height: rem(28px);
+  font-weight: 400;
+
+  &--k {
+    color: rgb(240, 238, 238);
+  }
+
+  &--s1 {
+    color: red;
+  }
+  &--c {
+    color: rgb(141, 141, 141);
+  }
+}
