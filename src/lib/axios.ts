@@ -15,7 +15,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   return config;
 }
 
-export const axios = Axios.create({
+const axios = Axios.create({
   baseURL: API_URL,
   params: { api_key: API_KEY },
 });
@@ -30,3 +30,5 @@ axios.interceptors.request.use(authRequestInterceptor);
 //     return Promise.reject(error);
 //   }
 // );
+
+export default axios;

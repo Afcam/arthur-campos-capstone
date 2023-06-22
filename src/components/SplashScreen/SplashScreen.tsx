@@ -1,4 +1,13 @@
-import { Timeline, Text, Input, Button, Group, ActionIcon } from '@mantine/core';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Timeline,
+  Text,
+  Input,
+  Button,
+  Group,
+  ActionIcon,
+} from '@mantine/core';
 import {
   IconGitBranch,
   IconGitPullRequest,
@@ -8,32 +17,31 @@ import {
   IconPlayerPlay,
 } from '@tabler/icons-react';
 
-import { useRef, useState } from 'react';
-import { createGameRoom, joinGameRoom } from '@/utils/api';
 import './SplashScreen.scss';
-import { useNavigate } from 'react-router-dom';
+import { createGameRoomAPI, joinGameRoomAPI } from '@/utils/api';
+import storage from '@/utils/storage';
 
 export default function SplashScreen() {
+  const [roomUUID, setRoomUUID] = useState('');
   const [activeState, setActiveState] = useState(1);
-  const roomIdRef = useRef();
   const navigate = useNavigate();
 
   const handleNewGame = async () => {
-    navigate('/lobby');
     try {
-      const token = await createGameRoom();
-      console.log(token);
+      const token = await createGameRoomAPI();
+      storage.setToken(token?.data);
+      navigate('/lobby');
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleJoinGame = async () => {
-    navigate('/lobby');
     try {
-      if (roomIdRef.current) {
-        const roomId = roomIdRef.current.value;
-        const token = await joinGameRoom(roomId);
+      if (roomUUID) {
+        const token = await joinGameRoomAPI(roomUUID);
+        storage.setToken(token?.data);
+        // navigate('/lobby');
       }
     } catch (error) {
       console.log(error);
@@ -43,7 +51,13 @@ export default function SplashScreen() {
   return (
     <main className="splash-screen">
       <div className="splash-screen__timeline">
-        <Timeline bulletSize={24} lineWidth={2} radius="md" active={activeState} reverseActive>
+        <Timeline
+          bulletSize={24}
+          lineWidth={2}
+          radius="md"
+          active={activeState}
+          reverseActive
+        >
           <Timeline.Item
             onClick={() => {
               setActiveState(2);
@@ -56,7 +70,11 @@ export default function SplashScreen() {
             </Text>
             {activeState === 2 && (
               <Group position="right">
-                <Button leftIcon={<IconPlus />} color="dark" onClick={handleNewGame}>
+                <Button
+                  leftIcon={<IconPlus />}
+                  color="dark"
+                  onClick={handleNewGame}
+                >
                   New...
                 </Button>
               </Group>
@@ -77,7 +95,13 @@ export default function SplashScreen() {
 
             {activeState === 1 && (
               <Group position="right">
-                <Input ref={roomIdRef} placeholder="GAME ROOM ID" />
+                <Input
+                  value={roomUUID}
+                  placeholder="GAME ROOM ID"
+                  onChange={(e) => {
+                    setRoomUUID(e.target.value);
+                  }}
+                />
                 <ActionIcon variant="filled" onClick={handleJoinGame}>
                   <IconPlayerPlay />
                 </ActionIcon>
