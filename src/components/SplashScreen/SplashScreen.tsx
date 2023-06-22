@@ -23,7 +23,7 @@ import storage from '@/utils/storage';
 
 export default function SplashScreen() {
   const [roomUUID, setRoomUUID] = useState('');
-  const [activeState, setActiveState] = useState(1);
+  const [activeState, setActiveState] = useState(2);
   const navigate = useNavigate();
 
   const handleNewGame = async () => {
@@ -41,6 +41,7 @@ export default function SplashScreen() {
       if (roomUUID) {
         const token = await joinGameRoomAPI(roomUUID);
         storage.setToken(token?.data);
+        console.log(token);
         // navigate('/lobby');
       }
     } catch (error) {
@@ -59,41 +60,18 @@ export default function SplashScreen() {
           reverseActive
         >
           <Timeline.Item
-            onClick={() => {
-              setActiveState(2);
-            }}
-            bullet={<IconGitBranch size={12} />}
-            title="Create new..."
-          >
-            <Text color="dimmed" size="sm">
-              Create a new room play.
-            </Text>
-            {activeState === 2 && (
-              <Group position="right">
-                <Button
-                  leftIcon={<IconPlus />}
-                  color="dark"
-                  onClick={handleNewGame}
-                >
-                  New...
-                </Button>
-              </Group>
-            )}
-          </Timeline.Item>
-
-          <Timeline.Item
             title="Pull request"
             bullet={<IconGitPullRequest size={12} />}
             lineVariant="dashed"
             onClick={() => {
-              setActiveState(1);
+              setActiveState(2);
             }}
           >
             <Text color="dimmed" size="sm">
               Join someones game room with a room id.
             </Text>
 
-            {activeState === 1 && (
+            {activeState === 2 && (
               <Group position="right">
                 <Input
                   value={roomUUID}
@@ -105,6 +83,28 @@ export default function SplashScreen() {
                 <ActionIcon variant="filled" onClick={handleJoinGame}>
                   <IconPlayerPlay />
                 </ActionIcon>
+              </Group>
+            )}
+          </Timeline.Item>
+          <Timeline.Item
+            onClick={() => {
+              setActiveState(1);
+            }}
+            bullet={<IconGitBranch size={12} />}
+            title="Create new..."
+          >
+            <Text color="dimmed" size="sm">
+              Create a new room play.
+            </Text>
+            {activeState === 1 && (
+              <Group position="right">
+                <Button
+                  leftIcon={<IconPlus />}
+                  color="dark"
+                  onClick={handleNewGame}
+                >
+                  New...
+                </Button>
               </Group>
             )}
           </Timeline.Item>

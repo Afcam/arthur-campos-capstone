@@ -31,3 +31,50 @@ $page-gutter--desktop: $spacing-unit--small;
 $page-margin: $spacing-unit--x-small;
 $page-margin--tablet: $spacing-unit--medium;
 $page-margin--desktop: 0;
+
+// Custom Variables
+
+// $border-radios-medium: rem(6px);
+// $border-radios-large: rem(12px);
+
+// $padding-base: rem(8px);
+// $padding-base-medium: rem(8px);
+// $padding-base-large: rem(8px);
+// $padding-base: rem(8px);
+
+$base-size-4: 0.25rem;
+$base-size-8: 0.5rem;
+$base-size-12: 0.75rem;
+$base-size-16: 1rem;
+$base-size-20: 1.25rem;
+$base-size-24: 1.5rem;
+$base-size-28: 1.75rem;
+$base-size-32: 2rem;
+$base-size-36: 2.25rem;
+$base-size-40: 2.5rem;
+$base-size-44: 2.75rem;
+$base-size-48: 3rem;
+$base-size-64: 4rem;
+$base-size-80: 5rem;
+$base-size-96: 6rem;
+$base-size-112: 7rem;
+$base-size-128: 8rem;
+
+$base-text-weight-light: 300;
+$base-text-weight-normal: 400;
+$base-text-weight-medium: 500;
+$base-text-weight-semibold: 600;
+
+// $boxShadow-thin: inset 0 0 0 max(1px, 0.0625rem);
+// $boxShadow-thick: inset 0 0 0 max(2px, 0.125rem);
+// $boxShadow-thicker: inset 0 0 0 max(4px, 0.25rem);
+
+$border-width-thin: rem(1px);
+$border-width-thick: rem(2px);
+$border-width-thicker: rem(4px);
+$border-radius-small: 3px;
+$border-radius-medium: 6px;
+$border-radius-large: 12px;
+$border-radius-full: 100vh;
+$outline-focus-offset: -0.125rem;
+$outline-focus-width: 0.125rem;
