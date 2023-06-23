@@ -22,7 +22,7 @@ export default function GamePage() {
 
   return (
     <AppShell
-      layout="alt"
+      // layout="alt"
       styles={{
         main: {
           background:

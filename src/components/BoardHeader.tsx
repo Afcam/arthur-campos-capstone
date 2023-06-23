@@ -6,6 +6,8 @@ import {
   MediaQuery,
   Burger,
   useMantineTheme,
+  Group,
+  Flex,
 } from '@mantine/core';
 import { IconSun, IconMoonStars } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -18,13 +20,7 @@ export default function BoardHeader() {
 
   return (
     <Header height={{ base: 50, md: 70 }} p="md">
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          height: '100%',
-        }}
-      >
+      <Flex justify="space-between" align="center">
         <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
           <Burger
             opened={opened}
@@ -36,6 +32,8 @@ export default function BoardHeader() {
             mr="xl"
           />
         </MediaQuery>
+        <Text>Application header</Text>
+
         <ActionIcon
           variant="outline"
           color={dark ? 'yellow' : 'blue'}
@@ -46,9 +44,7 @@ export default function BoardHeader() {
         >
           {dark ? <IconSun size="1.1rem" /> : <IconMoonStars size="1.1rem" />}
         </ActionIcon>
-
-        <Text>Application header</Text>
-      </div>
+      </Flex>
     </Header>
   );
 }
