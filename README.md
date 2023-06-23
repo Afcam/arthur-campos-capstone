@@ -21,6 +21,7 @@ MergeMayhem
 ### Description
 
 This is a browser game that incorporates the Git flow and Git commands, creating a fun and educational experience for users.
+Git Clash is a casual dedicated deck card game that incorporates the Git flow and Git commands
 
 ### Problem
 
