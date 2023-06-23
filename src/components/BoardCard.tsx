@@ -10,11 +10,15 @@ import {
 } from '@mantine/core';
 import { IconGitCommit } from '@tabler/icons-react';
 
-export default function BoardCard() {
+interface Props {
+  size?: string;
+}
+
+export default function BoardCard({ size = rem(48) }: Props) {
   return (
     <Card shadow="sm" padding="xs" radius="md" withBorder>
       <Center mx="auto">
-        <IconGitCommit size={rem(48)} />
+        <IconGitCommit size={size} />
       </Center>
 
       {/*       

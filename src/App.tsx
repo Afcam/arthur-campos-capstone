@@ -8,7 +8,7 @@ import {
 import { useLocalStorage } from '@mantine/hooks';
 
 import GamePage from './pages/GamePage';
-// import HomePage from './pages/HomePage';
+import HomePage from './pages/HomePage';
 // import AboutPage from './pages/AboutPage';
 // import LobbyPage from './pages/LobbyPage';
 // import RulesPage from './pages/RulesPage';
@@ -41,8 +41,8 @@ export default function App() {
       >
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<HomePage />} />
             <Route path="/game" element={<GamePage />} />
-            {/* <Route path="/" element={<HomePage />} /> */}
             {/* <Route path="/lobby" element={<LobbyPage />} />
             <Route path="/about" element={<AboutPage />} /> */}
             {/* <Route path="/rules" element={<RulesPage />} />

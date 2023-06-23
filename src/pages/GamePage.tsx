@@ -1,6 +1,7 @@
 import BoardFooter from '@/components/BoardFooter';
 import BoardGame from '@/components/BoardGame';
 import BoardHeader from '@/components/BoardHeader';
+import BoardNavbar from '@/components/BoardNavbar';
 import {
   ActionIcon,
   useMantineColorScheme,
@@ -33,13 +34,7 @@ export default function GamePage() {
       }}
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={
-        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-          <Navbar p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
-            <Text>Application navbar</Text>
-          </Navbar>
-        </MediaQuery>
-      }
+      navbar={<BoardNavbar />}
       footer={<BoardFooter />}
       header={<BoardHeader />}
       // aside={

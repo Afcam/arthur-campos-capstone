@@ -19,9 +19,14 @@ export default function BoardGame() {
   return (
     <Stack justify="space-between" h={'100%'}>
       <Group h={'100%'}>
-        <Button variant="outline">1</Button>
-        <Button variant="outline">2</Button>
-        <Button variant="outline">3</Button>
+        {/* <Container fluid>Default container</Container> */}
+
+        <Container fluid px="xs">
+          <BoardCard size="xl" />
+          xs container with xs horizontal padding
+        </Container>
+
+        <Container size="xs">Side Container</Container>
       </Group>
 
       <Flex
