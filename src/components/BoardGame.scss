@@ -1,0 +1,49 @@
+// .card {
+//   border-radius: 16px;
+//   background: #17141d;
+//   // box-shadow: -1rem 0 3rem #000;
+
+//   transition: 0.2s;
+//   cursor: grab;
+// }
+
+// .card:hover {
+//   transform: translateY(-1rem);
+// }
+
+// .card:hover ~ .card {
+//   transform: translateX(200px);
+// }
+
+// .card:not(:first-child) {
+
+//   margin-left: -333px;
+// }
+
+.card {
+  border-radius: 16px;
+  background: #17141d;
+  transition: 0.2s;
+  cursor: grab;
+  position: relative;
+  z-index: 1;
+}
+
+.card:hover {
+  transform: translateY(-1rem);
+  z-index: 2;
+}
+
+.card:not(:first-child) {
+  margin-left: -195px;
+
+  // transform: translateX(-1rem);
+}
+
+// .card:not(:last-child) {
+//   margin-right: -2%;
+// }
+
+// .card + .card {
+//   margin-top: -2%;
+// }
