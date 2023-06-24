@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 import { IconSun, IconMoonStars } from '@tabler/icons-react';
 import { useState } from 'react';
+import ToggleTheme from './ToggleTheme';
 
 export default function BoardHeader() {
   const theme = useMantineTheme();
@@ -34,16 +35,7 @@ export default function BoardHeader() {
         </MediaQuery>
         <Text>Application header</Text>
 
-        <ActionIcon
-          variant="outline"
-          color={dark ? 'yellow' : 'blue'}
-          onClick={() => {
-            toggleColorScheme();
-          }}
-          title="Toggle color scheme"
-        >
-          {dark ? <IconSun size="1.1rem" /> : <IconMoonStars size="1.1rem" />}
-        </ActionIcon>
+        <ToggleTheme />
       </Flex>
     </Header>
   );

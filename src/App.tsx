@@ -1,29 +1,27 @@
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useLocalStorage } from '@mantine/hooks';
 import {
   MantineProvider,
   ColorSchemeProvider,
+  createEmotionCache,
   type ColorScheme,
 } from '@mantine/core';
-import { useLocalStorage } from '@mantine/hooks';
 
 import GamePage from './pages/GamePage';
 import HomePage from './pages/HomePage';
+import DeckCarousel from './components/DeckCarousel/DeckCarousel';
+
+const myCache = createEmotionCache({ key: 'gitclash' });
 // import AboutPage from './pages/AboutPage';
 // import LobbyPage from './pages/LobbyPage';
 // import RulesPage from './pages/RulesPage';
-// import DeckCarousel from './components/DeckCarousel/DeckCarousel';
-// import './App.scss';
 
 export default function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: 'mantine-color-scheme',
+    key: 'gitclash-color-scheme',
     defaultValue: 'light',
     getInitialValueInEffect: true,
   });
-
-  // const toggleColorScheme = (value?: ColorScheme) =>
-  // setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   const toggleColorScheme = (value?: ColorScheme) => {
     setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
@@ -35,6 +33,7 @@ export default function App() {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
+        emotionCache={myCache}
         theme={{ colorScheme }}
         withGlobalStyles
         withNormalizeCSS
@@ -43,10 +42,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game" element={<GamePage />} />
-            {/* <Route path="/lobby" element={<LobbyPage />} />
-            <Route path="/about" element={<AboutPage />} /> */}
-            {/* <Route path="/rules" element={<RulesPage />} />
-            <Route path="/card" element={<DeckCarousel />} /> */}
+            <Route path="/card" element={<DeckCarousel />} />
             <Route path="*" element={<h2>Not Found</h2>} />
           </Routes>
         </BrowserRouter>
@@ -54,3 +50,7 @@ export default function App() {
     </ColorSchemeProvider>
   );
 }
+
+// {/* <Route path="/lobby" element={<LobbyPage />} />
+// <Route path="/about" element={<AboutPage />} /> */
+// {/* <Route path="/rules" element={<RulesPage />} />

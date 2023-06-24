@@ -1,13 +1,13 @@
 const storage = {
   getToken: (): string | null => {
-    const token = window.localStorage.getItem('token');
+    const token = window.sessionStorage.getItem('token');
     return token ? JSON.parse(token) : null;
   },
   setToken: (token: string): void => {
-    window.localStorage.setItem('token', JSON.stringify(token));
+    window.sessionStorage.setItem('token', JSON.stringify(token));
   },
   clearToken: (): void => {
-    window.localStorage.removeItem('token');
+    window.sessionStorage.removeItem('token');
   },
 };
 

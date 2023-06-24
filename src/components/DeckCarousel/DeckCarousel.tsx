@@ -114,7 +114,7 @@ export default function DeckCarousel() {
     <div className="deck-carousel">
       <Carousel
         slideGap="5%"
-        controlsOffset="xl"
+        // controlsOffset="xl"
         slideSize="fit-content"
         loop
         withIndicators

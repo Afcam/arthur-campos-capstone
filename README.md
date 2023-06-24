@@ -20,8 +20,22 @@ MergeMayhem
 
 ### Description
 
-This is a browser game that incorporates the Git flow and Git commands, creating a fun and educational experience for users.
-Git Clash is a casual dedicated deck card game that incorporates the Git flow and Git commands
+Git Clash is a turn-based card game that draws inspiration from Git flow and Git commands. It offers a casual and dedicated gaming experience, allowing players to strategically compete using cards representing various Git actions.
+
+<!-- This is a browser game that incorporates the Git flow and Git commands, creating a fun and educational experience for users.
+Git Clash is a casual dedicated deck card game that incorporates the Git flow and Git commands -->
+
+Git Clash is a dedicated turn-based card game that takes its inspiration from Git flow and Git commands. It offers players a casual and engaging experience, combining the world of version control with strategic gameplay.
+
+In Git Clash, players assume the roles of Git developers and engage in battles against each other using a deck of cards. Each card represents a specific Git action or command, such as commit, push, pull, merge, branch, and more. Players strategically play these cards to gain control over repositories and outmaneuver their opponents.
+
+The game follows a turn-based format, allowing players to carefully plan their moves and consider the consequences of each action. By strategically deploying their cards, players can hinder their opponents' progress, seize control of repositories, and ultimately achieve victory.
+
+Git Clash provides an accessible and enjoyable gaming experience for both Git enthusiasts and casual players. It serves as a platform for players to reinforce their understanding of Git flow, commands, and branching strategies in a fun and interactive way. The game is designed to accommodate players of varying skill levels, making it accessible to both beginners and experienced Git users.
+
+Through Git Clash, players can explore and experiment with different Git actions, learning how they impact the overall gameplay. The game's mechanics encourage players to strategize and consider the best course of action in order to achieve their objectives.
+
+Whether you're a software developer looking for a unique way to reinforce your Git knowledge or simply someone who enjoys turn-based card games, Git Clash offers an immersive experience that combines learning and entertainment. Step into the world of version control, embrace the power of Git commands, and engage in strategic battles to claim victory.
 
 ### Problem
 

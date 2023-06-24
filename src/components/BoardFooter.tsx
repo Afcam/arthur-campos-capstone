@@ -1,9 +1,18 @@
-import { Footer } from '@mantine/core';
+import { Footer, Group, Text } from '@mantine/core';
+import { IconLockAccess, IconLockOpen } from '@tabler/icons-react';
 
-export default function BoardFooter() {
+interface Props {
+  roomUUID: string;
+}
+
+export default function BoardFooter({ roomUUID }: Props) {
   return (
     <Footer height={60} p="md">
-      Application footer
+      <Group>
+        {/* <IconLockAccess /> */}
+        <IconLockOpen />
+        <Text>{roomUUID}</Text>
+      </Group>
     </Footer>
   );
 }

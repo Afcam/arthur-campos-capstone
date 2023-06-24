@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Timeline,
   Text,
@@ -7,6 +6,7 @@ import {
   Button,
   Group,
   ActionIcon,
+  Space,
 } from '@mantine/core';
 import {
   IconGitBranch,
@@ -17,119 +17,99 @@ import {
   IconPlayerPlay,
 } from '@tabler/icons-react';
 
-import './SplashScreen.scss';
-import { createGameRoomAPI, joinGameRoomAPI } from '@/utils/api';
-import storage from '@/utils/storage';
+interface Props {
+  newGame: () => void;
+  joinGame: (roomUUID: string) => void;
+}
 
-export default function SplashScreen() {
+export default function SplashScreen({ newGame, joinGame }: Props) {
   const [roomUUID, setRoomUUID] = useState('');
-  const [activeState, setActiveState] = useState(2);
-  const navigate = useNavigate();
-
-  const handleNewGame = async () => {
-    try {
-      const token = await createGameRoomAPI();
-      storage.setToken(token?.data);
-      navigate('/lobby');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleJoinGame = async () => {
-    try {
-      if (roomUUID) {
-        const token = await joinGameRoomAPI(roomUUID);
-        storage.setToken(token?.data);
-        console.log(token);
-        // navigate('/lobby');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  const [activeState, setActiveState] = useState(1);
   return (
-    <main className="splash-screen">
-      <div className="splash-screen__timeline">
-        <Timeline
-          bulletSize={24}
-          lineWidth={2}
-          radius="md"
-          active={activeState}
-          reverseActive
-        >
-          <Timeline.Item
-            title="Pull request"
-            bullet={<IconGitPullRequest size={12} />}
-            lineVariant="dashed"
-            onClick={() => {
-              setActiveState(2);
-            }}
-          >
-            <Text color="dimmed" size="sm">
-              Join someones game room with a room id.
-            </Text>
+    <Timeline
+      bulletSize={24}
+      lineWidth={2}
+      radius="md"
+      active={activeState}
+      reverseActive
+    >
+      <Timeline.Item
+        onClick={() => {
+          setActiveState(2);
+        }}
+        bullet={<IconGitBranch size={12} />}
+        title="Create new..."
+      >
+        <Text color="dimmed" size="sm">
+          Create a new room to play
+        </Text>
+        <Space h="md" />
 
-            {activeState === 2 && (
-              <Group position="right">
-                <Input
-                  value={roomUUID}
-                  placeholder="GAME ROOM ID"
-                  onChange={(e) => {
-                    setRoomUUID(e.target.value);
-                  }}
-                />
-                <ActionIcon variant="filled" onClick={handleJoinGame}>
-                  <IconPlayerPlay />
-                </ActionIcon>
-              </Group>
-            )}
-          </Timeline.Item>
-          <Timeline.Item
-            onClick={() => {
-              setActiveState(1);
-            }}
-            bullet={<IconGitBranch size={12} />}
-            title="Create new..."
-          >
-            <Text color="dimmed" size="sm">
-              Create a new room play.
-            </Text>
-            {activeState === 1 && (
-              <Group position="right">
-                <Button
-                  leftIcon={<IconPlus />}
-                  color="dark"
-                  onClick={handleNewGame}
-                >
-                  New...
-                </Button>
-              </Group>
-            )}
-          </Timeline.Item>
+        {activeState === 2 && (
+          <Group position="center">
+            <Button
+              leftIcon={<IconPlus />}
+              // color="dark"
+              onClick={newGame}
+            >
+              New...
+            </Button>
+          </Group>
+        )}
+      </Timeline.Item>
 
-          <Timeline.Item
-            onClick={() => {
-              setActiveState(0);
-            }}
-            title="Code review"
-            bullet={<IconMessageDots size={12} />}
-          >
-            <Text color="dimmed" size="sm">
-              Check out the game rules
-            </Text>
-            {activeState === 0 && (
-              <Group position="right">
-                <ActionIcon variant="filled">
-                  <IconFileInfo />
-                </ActionIcon>
-                {/* <Button leftIcon={<IconFileInfo />}>Rules</Button> */}
-              </Group>
-            )}
-          </Timeline.Item>
-        </Timeline>
-      </div>
-    </main>
+      <Timeline.Item
+        title="Make a Pull Request"
+        bullet={<IconGitPullRequest size={12} />}
+        lineVariant="dashed"
+        onClick={() => {
+          setActiveState(1);
+        }}
+      >
+        <Text color="dimmed" size="sm">
+          Join a room with an id
+        </Text>
+        <Space h="md" />
+
+        {activeState === 1 && (
+          <Group position="right">
+            <Input
+              value={roomUUID}
+              placeholder="GAME ROOM ID"
+              onChange={(e) => {
+                setRoomUUID(e.target.value);
+              }}
+            />
+            <ActionIcon
+              variant="filled"
+              onClick={() => {
+                joinGame(roomUUID);
+              }}
+            >
+              <IconPlayerPlay />
+            </ActionIcon>
+          </Group>
+        )}
+      </Timeline.Item>
+
+      <Timeline.Item
+        onClick={() => {
+          setActiveState(0);
+        }}
+        title="Code review"
+        bullet={<IconMessageDots size={12} />}
+      >
+        <Text color="dimmed" size="sm">
+          Check out the game rules
+        </Text>
+        {activeState === 0 && (
+          <Group position="right">
+            <ActionIcon variant="filled">
+              <IconFileInfo />
+            </ActionIcon>
+          </Group>
+        )}
+      </Timeline.Item>
+    </Timeline>
   );
 }
