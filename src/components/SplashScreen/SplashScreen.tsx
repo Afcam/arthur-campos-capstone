@@ -5,39 +5,66 @@ import {
   Input,
   Button,
   Group,
-  ActionIcon,
   Space,
+  Stack,
+  Paper,
 } from '@mantine/core';
 import {
-  IconGitBranch,
-  IconGitPullRequest,
   IconPlus,
+  IconGitPullRequest,
   IconMessageDots,
   IconFileInfo,
-  IconPlayerPlay,
 } from '@tabler/icons-react';
 
 interface Props {
-  newGame: () => void;
-  joinGame: (roomUUID: string) => void;
+  onSubmit: (roomUUID: string, username: string) => void;
 }
 
-export default function SplashScreen({ newGame, joinGame }: Props) {
+export default function SplashScreen({ onSubmit }: Props) {
   const [roomUUID, setRoomUUID] = useState('');
-  const [activeState, setActiveState] = useState(1);
+  const [username, setUsername] = useState('');
+  const [timelineState, setTimelineState] = useState(1);
+  const [menuState, setMenuState] = useState(0);
+
+  if (menuState === 1) {
+    return (
+      <Paper shadow="xs" p="md">
+        <Stack>
+          <Input
+            value={username}
+            placeholder="GAME ROOM ID"
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+
+          <Button
+            compact
+            onClick={() => {
+              onSubmit(roomUUID, username);
+            }}
+          >
+            <Text fz="sm">Enter as </Text>
+            <Space w="xs" />
+            <Text fw={700}>{`${username}`}</Text>
+          </Button>
+        </Stack>
+      </Paper>
+    );
+  }
   return (
     <Timeline
       bulletSize={24}
       lineWidth={2}
       radius="md"
-      active={activeState}
+      active={timelineState}
       reverseActive
     >
       <Timeline.Item
         onClick={() => {
-          setActiveState(2);
+          setTimelineState(2);
         }}
-        bullet={<IconGitBranch size={12} />}
+        bullet={<IconPlus size={12} />}
         title="Create new..."
       >
         <Text color="dimmed" size="sm">
@@ -45,14 +72,17 @@ export default function SplashScreen({ newGame, joinGame }: Props) {
         </Text>
         <Space h="md" />
 
-        {activeState === 2 && (
+        {timelineState === 2 && (
           <Group position="center">
             <Button
               leftIcon={<IconPlus />}
               // color="dark"
-              onClick={newGame}
+              onClick={() => {
+                setRoomUUID('');
+                setMenuState(1);
+              }}
             >
-              New...
+              New Game
             </Button>
           </Group>
         )}
@@ -63,7 +93,7 @@ export default function SplashScreen({ newGame, joinGame }: Props) {
         bullet={<IconGitPullRequest size={12} />}
         lineVariant="dashed"
         onClick={() => {
-          setActiveState(1);
+          setTimelineState(1);
         }}
       >
         <Text color="dimmed" size="sm">
@@ -71,30 +101,35 @@ export default function SplashScreen({ newGame, joinGame }: Props) {
         </Text>
         <Space h="md" />
 
-        {activeState === 1 && (
-          <Group position="right">
-            <Input
-              value={roomUUID}
-              placeholder="GAME ROOM ID"
-              onChange={(e) => {
-                setRoomUUID(e.target.value);
-              }}
-            />
-            <ActionIcon
-              variant="filled"
-              onClick={() => {
-                joinGame(roomUUID);
-              }}
-            >
-              <IconPlayerPlay />
-            </ActionIcon>
-          </Group>
+        {timelineState === 1 && (
+          <Paper shadow="xs" p="md">
+            <Stack>
+              <Input
+                value={roomUUID}
+                placeholder="GAME ROOM ID"
+                onChange={(e) => {
+                  setRoomUUID(e.target.value);
+                }}
+              />
+
+              <Button
+                compact
+                onClick={() => {
+                  setMenuState(1);
+                }}
+              >
+                <Text fz="sm">Commit to </Text>
+                <Space w="xs" />
+                <Text fw={700}>{`gitclash/${roomUUID}`}</Text>
+              </Button>
+            </Stack>
+          </Paper>
         )}
       </Timeline.Item>
 
       <Timeline.Item
         onClick={() => {
-          setActiveState(0);
+          setTimelineState(0);
         }}
         title="Code review"
         bullet={<IconMessageDots size={12} />}
@@ -102,11 +137,11 @@ export default function SplashScreen({ newGame, joinGame }: Props) {
         <Text color="dimmed" size="sm">
           Check out the game rules
         </Text>
-        {activeState === 0 && (
+        <Space h="md" />
+
+        {timelineState === 0 && (
           <Group position="right">
-            <ActionIcon variant="filled">
-              <IconFileInfo />
-            </ActionIcon>
+            <Button leftIcon={<IconFileInfo />}>Rules</Button>
           </Group>
         )}
       </Timeline.Item>

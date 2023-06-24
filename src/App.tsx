@@ -7,14 +7,10 @@ import {
   type ColorScheme,
 } from '@mantine/core';
 
-import GamePage from './pages/GamePage';
 import HomePage from './pages/HomePage';
-import DeckCarousel from './components/DeckCarousel/DeckCarousel';
+import GamePage from './pages/GamePage';
 
 const myCache = createEmotionCache({ key: 'gitclash' });
-// import AboutPage from './pages/AboutPage';
-// import LobbyPage from './pages/LobbyPage';
-// import RulesPage from './pages/RulesPage';
 
 export default function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -42,7 +38,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game" element={<GamePage />} />
-            <Route path="/card" element={<DeckCarousel />} />
+            <Route path="/game/:id" element={<GamePage />} />
             <Route path="*" element={<h2>Not Found</h2>} />
           </Routes>
         </BrowserRouter>
@@ -50,7 +46,3 @@ export default function App() {
     </ColorSchemeProvider>
   );
 }
-
-// {/* <Route path="/lobby" element={<LobbyPage />} />
-// <Route path="/about" element={<AboutPage />} /> */
-// {/* <Route path="/rules" element={<RulesPage />} />
