@@ -72,7 +72,7 @@ export default function HomePage() {
           : joinGameRoomAPI(roomUUID, username);
       storage.setToken(response?.data);
 
-      navigate(`/game/${roomUUID}`);
+      navigate(`/game`);
     } catch (error) {
       console.log(error);
     }

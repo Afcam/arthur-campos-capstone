@@ -38,7 +38,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game" element={<GamePage />} />
-            <Route path="/game/:id" element={<GamePage />} />
             <Route path="*" element={<h2>Not Found</h2>} />
           </Routes>
         </BrowserRouter>

@@ -12,6 +12,8 @@ export const createGameRoomAPI = (username: string) =>
     username,
   });
 
+export const getPlayerInfoAPI = () => axios.get('/api/player');
+
 // Socket
 // export const joinGameRoom = (roomUUID: string) => socket.emit('joinRoom', roomUUID);
 // export const joinGameRoom = (roomUUID: string) => socket.on('joinRoom', roomUUID);

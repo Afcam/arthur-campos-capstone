@@ -13,10 +13,12 @@ import BoardGame from '@/components/BoardGame';
 import BoardHeader from '@/components/BoardHeader';
 import BoardNavbar from '@/components/BoardNavbar';
 import socket from '@/lib/socket';
+import { getPlayerInfoAPI } from '@/utils/api';
 
 export default function GamePage() {
   const theme = useMantineTheme();
-  const [roomUUID, setRoomUUID] = useState(undefined);
+  const [playerInfo, setPlayerInfo] = useState(undefined);
+
   // const [recentActivities, setRecentActivities] = useState([]);
   const [recentActivities, setRecentActivities] = useState([
     {
@@ -26,6 +28,12 @@ export default function GamePage() {
       timestamp: new Date(),
     },
   ]);
+
+  useEffect(() => {
+    getPlayerInfoAPI().then((response) => {
+      setPlayerInfo(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     socket.on('joinedRoom', (newActivity) => {
@@ -45,13 +53,12 @@ export default function GamePage() {
   useEffect(() => {
     socket.on('joinedRoom', (response) => {
       console.log('Received data:', response.room_id);
-      setRoomUUID(response.room_id);
     });
   }, []);
 
-  // if (!roomUUID) {
-  //   return <Loader />;
-  // }
+  if (!playerInfo) {
+    return <LoadingOverlay visible />;
+  }
 
   return (
     <AppShell
@@ -67,7 +74,7 @@ export default function GamePage() {
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
       navbar={<BoardNavbar recentActivities={recentActivities} />}
-      footer={<BoardFooter roomUUID={roomUUID} />}
+      footer={<BoardFooter roomUUID={playerInfo.room_uuid} />}
       header={<BoardHeader />}
       // aside={
       //   <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
