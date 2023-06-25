@@ -54,7 +54,7 @@ export default function GamePage() {
 
   return (
     <AppShell
-      // layout="alt"
+      layout="alt"
       styles={{
         main: {
           background:
@@ -63,9 +63,9 @@ export default function GamePage() {
               : theme.colors.gray[0],
         },
       }}
-      navbarOffsetBreakpoint="sm"
+      // navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      header={<BoardHeader />}
+      // header={<BoardHeader />}
       navbar={<BoardNavbar recentActivities={recentActivities} />}
       footer={<BoardFooter roomUUID={playerInfo?.room_uuid} />}
     >

@@ -10,8 +10,9 @@
     transform: translateY(-1rem);
     z-index: 2;
   }
-
-  &:not(:first-child) {
-    margin-left: -198px;
+  &--stack {
+    &:not(:first-child) {
+      margin-left: -197px;
+    }
   }
 }
