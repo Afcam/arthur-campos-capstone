@@ -23,17 +23,18 @@ import ToggleTheme from '@/components/ToggleTheme';
 
 function HomeFooter() {
   return (
-    <Footer height={60} p="md" withBorder={false}>
-      <Group position="apart">
-        <Text fz="xs">Arthur Faria Campos</Text>
+    <Footer height={38} px="md" py="xs" withBorder={false}>
+      <Group position="apart" align="center" h="100%">
+        <Text fz="xs">Afcam</Text>
 
         <Group>
           <ActionIcon
+            size="xs"
             component="a"
             href="https://github.com/Afcam"
             variant="filled"
           >
-            <IconBrandGithubFilled />
+            <IconBrandGithubFilled size="0.75rem" />
           </ActionIcon>
         </Group>
       </Group>
@@ -65,13 +66,14 @@ export default function HomePage() {
 
   const handleSubmit = async (roomUUID: string, username: string) => {
     storage.clearToken();
+    console.log(roomUUID, username);
     try {
       const response =
         roomUUID === ''
           ? await createGameRoomAPI(username)
-          : joinGameRoomAPI(roomUUID, username);
-      storage.setToken(response?.data);
+          : await joinGameRoomAPI(roomUUID, username);
 
+      storage.setToken(response?.data);
       navigate(`/game`);
     } catch (error) {
       console.log(error);
@@ -92,7 +94,7 @@ export default function HomePage() {
       footer={<HomeFooter />}
     >
       <Center h="100%">
-        <Stack align="center" w="350px" h="500px">
+        <Stack align="center" w="300px" h="500px">
           <Group>
             <Title order={1}>Git Clash</Title>
             <IconSwords />

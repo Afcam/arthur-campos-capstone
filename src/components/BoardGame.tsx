@@ -1,63 +1,98 @@
 import {
   Stack,
   Flex,
-  Container,
-  Box,
   Card,
-  Image,
-  Text,
   Badge,
-  Button,
   Group,
-  Avatar,
-  AppShell,
-  Navbar,
-  Header,
   Paper,
+  Avatar,
+  Title,
+  Divider,
   Center,
+  AspectRatio,
+  Text,
+  ScrollArea,
 } from '@mantine/core';
-import { useState, useEffect } from 'react';
 
 import './BoardGame.scss';
-import DeckCarousel from './DeckCarousel/DeckCarousel';
-import BoardCard from './BoardCard';
-import { IconBrandGit } from '@tabler/icons-react';
-
-const cardDeck = () => {
-  const cards = [];
-  for (let i = 0; i < 20; i++) {
-    cards.push(i);
-  }
-  return cards;
-};
+import {
+  IconBrandGit,
+  IconPhoto,
+  IconUpload,
+  IconX,
+} from '@tabler/icons-react';
 
 const GitClashCard = () => {
+  const cards = Array(20).fill(null);
+
   return (
     <Group spacing="0">
-      {cardDeck().map((item, index) => (
-        <Card
-          key={index}
-          w="200px"
-          h="250px"
-          shadow="sm"
-          radius="md"
-          withBorder
-          className="card"
-        >
-          <Stack justify="space-between" h="100%">
-            <IconBrandGit size="100%" />
+      {cards.map((_, index) => (
+        <AspectRatio key={index} ratio={63 / 88} w={'200px'} className="card">
+          <Card shadow="sm" radius="md" withBorder>
+            <Stack justify="space-between" h="100%">
+              <IconBrandGit size="100%" />
 
-            <Badge>{index}</Badge>
-          </Stack>
-          {/* <Center mx="auto">
+              <Badge>{index}</Badge>
+            </Stack>
+            {/* <Center mx="auto">
           </Center> */}
-        </Card>
+          </Card>
+        </AspectRatio>
       ))}
     </Group>
   );
 };
 
-export default function BoardGame() {
+const UserCards = () => {
+  const cards = Array(7).fill(null);
+
+  return (
+    <Group spacing="0" noWrap>
+      {cards.map((_, index) => (
+        <AspectRatio key={index} ratio={63 / 88} w={'30px'}>
+          <Card p={0} shadow="sm" radius="md" withBorder className="card">
+            <Center mx="auto">
+              <Stack spacing="0" justify="center" h="100%">
+                <IconBrandGit size="1rem" />
+                <Text align="center" fz="xs">
+                  {index}
+                </Text>
+              </Stack>
+            </Center>
+          </Card>
+        </AspectRatio>
+      ))}
+    </Group>
+  );
+};
+
+const Users = () => {
+  const users = Array(7).fill(null);
+
+  return (
+    <Stack>
+      {users.map((_, index) => (
+        <Card key={index} p="xs" shadow="sm" radius="md" withBorder>
+          <Group noWrap>
+            <Avatar
+              radius="md"
+              size="lg"
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
+            />
+            <Stack w="100%" spacing="xs">
+              <Title order={5}>Username</Title>
+              <Divider />
+              <UserCards />
+            </Stack>
+          </Group>
+        </Card>
+      ))}
+    </Stack>
+  );
+};
+
+export default function BoardGame({ username }) {
   // const [drawPile, setDrawPile] = useState([]);
   // const [discardPile, setdDiscardPile] = useState([]);
   return (
@@ -66,16 +101,30 @@ export default function BoardGame() {
         <Paper shadow="xs" withBorder w="100%" h="100%">
           <Group position="center" p="md" h="100% ">
             <GitClashCard />
-            {/* <GitClashCard /> */}
+            <GitClashCard />
           </Group>
         </Paper>
-        <Paper shadow="xs" withBorder w="33%" h="100%">
-          Nice
+        <Paper shadow="xs" p="md" withBorder w="33%" h="100%">
+          <ScrollArea h="60vh">
+            <Users />
+          </ScrollArea>
         </Paper>
       </Flex>
 
       <Paper shadow="xs" withBorder w="100%" h="33%">
-        Nice
+        <Badge
+          pl={0}
+          size="lg"
+          color="teal"
+          radius="xl"
+          leftSection={
+            <Avatar src={null} alt="Vitaly Rtishchev" color="red">
+              VR
+            </Avatar>
+          }
+        >
+          {username}
+        </Badge>
       </Paper>
     </Stack>
   );

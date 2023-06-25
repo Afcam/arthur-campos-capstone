@@ -12,19 +12,20 @@ import BoardFooter from '@/components/BoardFooter';
 import BoardGame from '@/components/BoardGame';
 import BoardHeader from '@/components/BoardHeader';
 import BoardNavbar from '@/components/BoardNavbar';
-import socket from '@/lib/socket';
+// import socket from '@/lib/socket';
 import { getPlayerInfoAPI } from '@/utils/api';
+import { io, type Socket } from 'socket.io-client';
+import { API_URL } from '@/config/config';
+import storage from '@/utils/storage';
 
 export default function GamePage() {
   const theme = useMantineTheme();
   const [playerInfo, setPlayerInfo] = useState(undefined);
-
-  // const [recentActivities, setRecentActivities] = useState([]);
   const [recentActivities, setRecentActivities] = useState([
     {
       title: 'Initial Commit',
-      username: 'Arthur',
-      message: "You'apos;ve created new branch from master",
+      username: '',
+      message: "You've created new branch from master",
       timestamp: new Date(),
     },
   ]);
@@ -36,33 +37,24 @@ export default function GamePage() {
   }, []);
 
   useEffect(() => {
-    socket.on('joinedRoom', (newActivity) => {
-      console.log('Received data:', newActivity);
-      setRecentActivities((prevActivities) => [
-        {
-          title: newActivity.title,
-          username: newActivity.username,
-          message: newActivity.message,
-          timestamp: new Date(),
-        },
-        ...prevActivities,
-      ]);
+    const token = storage.getToken() ?? '';
+
+    const socket: Socket = io(API_URL, {
+      auth: { token: `Bearer ${token}` },
+    });
+
+    socket.on('action', (message) => {
+      setRecentActivities((prev) => [message, ...prev]);
     });
   }, []);
 
-  useEffect(() => {
-    socket.on('joinedRoom', (response) => {
-      console.log('Received data:', response.room_id);
-    });
-  }, []);
-
-  if (!playerInfo) {
-    return <LoadingOverlay visible />;
-  }
+  // if (!playerInfo) {
+  //   return <LoadingOverlay visible />;
+  // }
 
   return (
     <AppShell
-      layout="alt"
+      // layout="alt"
       styles={{
         main: {
           background:
@@ -73,18 +65,11 @@ export default function GamePage() {
       }}
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<BoardNavbar recentActivities={recentActivities} />}
-      footer={<BoardFooter roomUUID={playerInfo.room_uuid} />}
       header={<BoardHeader />}
-      // aside={
-      //   <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-      //     <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
-      //       {/* <Text>Application sidebar</Text> */}
-      //     </Aside>
-      //   </MediaQuery>
-      // }
+      navbar={<BoardNavbar recentActivities={recentActivities} />}
+      footer={<BoardFooter roomUUID={playerInfo?.room_uuid} />}
     >
-      <BoardGame />
+      <BoardGame username={playerInfo?.username} />
     </AppShell>
   );
 }

@@ -28,11 +28,11 @@ export default function SplashScreen({ onSubmit }: Props) {
 
   if (menuState === 1) {
     return (
-      <Paper shadow="xs" p="md">
+      <Paper shadow="xs" radius="md" p="md" withBorder>
         <Stack>
           <Input
             value={username}
-            placeholder="GAME ROOM ID"
+            placeholder="USERNAME"
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -56,6 +56,7 @@ export default function SplashScreen({ onSubmit }: Props) {
     <Timeline
       bulletSize={24}
       lineWidth={2}
+      w={'100%'}
       radius="md"
       active={timelineState}
       reverseActive
@@ -102,7 +103,7 @@ export default function SplashScreen({ onSubmit }: Props) {
         <Space h="md" />
 
         {timelineState === 1 && (
-          <Paper shadow="xs" p="md">
+          <Paper shadow="xs" radius="md" p="md" withBorder>
             <Stack>
               <Input
                 value={roomUUID}

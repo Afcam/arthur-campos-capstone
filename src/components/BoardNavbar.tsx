@@ -1,3 +1,4 @@
+import { formatTimestamp } from '@/utils/formatDate';
 import {
   MediaQuery,
   Navbar,
@@ -42,11 +43,17 @@ export default function BoardNavbar({ recentActivities }: Props) {
                     bullet={<IconGitCommit size={12} />}
                     title={item.title}
                   >
+                    {item.username && (
+                      <Text color="dimmed" size="sm">
+                        {item.username}
+                      </Text>
+                    )}
+                    <Space w="xs" />
                     <Text color="dimmed" size="sm">
-                      {`${item.username} ${item.message} `}
+                      {item.message}
                     </Text>
                     <Text size="xs" mt={4}>
-                      2 hours ago
+                      {formatTimestamp(item.timestamp)}
                     </Text>
                   </Timeline.Item>
                 );

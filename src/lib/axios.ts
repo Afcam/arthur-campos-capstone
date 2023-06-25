@@ -4,7 +4,6 @@ import storage from '@/utils/storage';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const token = storage.getToken();
-  console.log(token);
   if (token) {
     config.headers.authorization = `Bearer ${token}`;
     console.log(token);
