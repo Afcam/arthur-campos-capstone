@@ -1,22 +1,14 @@
 import { useEffect, useState } from 'react';
-import {
-  AppShell,
-  Aside,
-  Loader,
-  LoadingOverlay,
-  MediaQuery,
-  useMantineTheme,
-} from '@mantine/core';
+import { AppShell, LoadingOverlay, useMantineTheme } from '@mantine/core';
 
-import BoardFooter from '@/components/BoardFooter';
-import BoardGame from '@/components/BoardGame';
-import BoardHeader from '@/components/BoardHeader';
-import BoardNavbar from '@/components/BoardNavbar';
-// import socket from '@/lib/socket';
+import { API_URL } from '@/config/config';
 import { getPlayerInfoAPI } from '@/utils/api';
 import { io, type Socket } from 'socket.io-client';
-import { API_URL } from '@/config/config';
 import storage from '@/utils/storage';
+
+import BoardFooter from '@/components/BoardFooter';
+import BoardGame from '@/components/BoardGame/BoardGame';
+import BoardNavbar from '@/components/BoardNavbar';
 
 export default function GamePage() {
   const theme = useMantineTheme();
@@ -48,9 +40,9 @@ export default function GamePage() {
     });
   }, []);
 
-  // if (!playerInfo) {
-  //   return <LoadingOverlay visible />;
-  // }
+  if (!playerInfo) {
+    return <LoadingOverlay visible />;
+  }
 
   return (
     <AppShell
@@ -63,13 +55,17 @@ export default function GamePage() {
               : theme.colors.gray[0],
         },
       }}
-      // navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
       // header={<BoardHeader />}
-      navbar={<BoardNavbar recentActivities={recentActivities} />}
-      footer={<BoardFooter roomUUID={playerInfo?.room_uuid} />}
+      navbar={
+        <BoardNavbar
+          recentActivities={recentActivities}
+          username={playerInfo.username}
+        />
+      }
+      footer={<BoardFooter roomUUID={playerInfo.room_uuid} />}
     >
-      <BoardGame username={playerInfo?.username} />
+      <BoardGame />
     </AppShell>
   );
 }

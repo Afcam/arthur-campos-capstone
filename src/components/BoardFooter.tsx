@@ -1,5 +1,6 @@
-import { Footer, Group, Text } from '@mantine/core';
+import { Flex, Footer, Group, Text } from '@mantine/core';
 import { IconLockAccess, IconLockOpen } from '@tabler/icons-react';
+import ToggleTheme from './ToggleTheme';
 
 interface Props {
   roomUUID: string;
@@ -8,11 +9,14 @@ interface Props {
 export default function BoardFooter({ roomUUID }: Props) {
   return (
     <Footer height={60} p="md">
-      <Group>
-        {/* <IconLockAccess /> */}
-        <IconLockOpen />
-        <Text>{roomUUID}</Text>
-      </Group>
+      <Flex justify={'space-between'}>
+        <Group>
+          {/* <IconLockAccess /> */}
+          <IconLockOpen />
+          <Text>{roomUUID}</Text>
+        </Group>
+        <ToggleTheme />
+      </Flex>
     </Footer>
   );
 }

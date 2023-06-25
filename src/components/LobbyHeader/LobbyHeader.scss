@@ -1,6 +1,0 @@
-@import '@/styles/all';
-
-.lobby-header {
-  @include push-auto;
-  @include soft-ends(rem(48px), rem(20px));
-}

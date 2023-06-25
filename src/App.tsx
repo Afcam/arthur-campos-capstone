@@ -9,6 +9,7 @@ import {
 
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
+import NotFound from './components/NotFound/NotFound';
 
 const myCache = createEmotionCache({ key: 'gitclash' });
 
@@ -38,7 +39,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game" element={<GamePage />} />
-            <Route path="*" element={<h2>Not Found</h2>} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </MantineProvider>
