@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   MediaQuery,
   Group,
@@ -12,6 +12,7 @@ import {
   Center,
   Avatar,
   LoadingOverlay,
+  Stepper,
 } from '@mantine/core';
 import { IconSwords } from '@tabler/icons-react';
 
@@ -125,12 +126,28 @@ function BoardCards({ cards }: { cards: [] }) {
 }
 
 function Lobby(props) {
+  const navigate = useNavigate();
   return (
     <Paper w="100%" h="100%" shadow="sm" p="xs" radius="sm" withBorder>
-      <Stack h="100%">
-        <Group w="100%" position="right">
+      <Stack h="100%" p="xl" align="center">
+        <Stepper active={1} w="100%">
+          <Stepper.Step label="Step 1" description="Create" />
+          <Stepper.Step label="Step 2" description="Start" loading />
+          <Stepper.Step label="Step 3" description="Play" />
+        </Stepper>
+        <Title>Waiting for players</Title>
+        <Group position="center">
+          <Button
+            variant="default"
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            Back
+          </Button>
           <Button onClick={props.onStart}>START</Button>
         </Group>
+
         <Center h="100%">
           <Group>
             {props.players.map((player, index) => (
@@ -165,6 +182,7 @@ function Board({
   playedCards,
   drawPile,
   players,
+  gameActive,
 }: {
   onStart: () => void;
   currentPlayer: { room_uuid: string };
@@ -173,21 +191,14 @@ function Board({
   playedCards: [];
   drawPile: number;
   players: [];
+  gameActive: boolen;
 }) {
-  const [lobby, setLobby] = useState(true);
-
   return (
     <Stack h="100%" w="100%">
       <BoardHeader room_uuid={currentPlayer.room_uuid} />
 
-      {lobby ? (
-        <Lobby
-          onStart={() => {
-            setLobby(false);
-            onStart();
-          }}
-          players={players}
-        />
+      {!gameActive ? (
+        <Lobby onStart={onStart} players={players} />
       ) : (
         <>
           <Group noWrap h="100%">
@@ -210,6 +221,7 @@ export default function GameBoard({
   playedCards,
   drawPile,
   players,
+  gameActive,
 }: {
   logs: [];
   onStart: () => void;
@@ -219,6 +231,7 @@ export default function GameBoard({
   playedCards: [];
   players: [];
   drawPile: number;
+  gameActive: boolean;
 }) {
   return (
     <Group h="100%" noWrap>
@@ -232,6 +245,7 @@ export default function GameBoard({
         playedCards={playedCards}
         drawPile={drawPile}
         players={players}
+        gameActive={gameActive}
       />
     </Group>
   );

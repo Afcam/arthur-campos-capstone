@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppShell, LoadingOverlay, useMantineTheme } from '@mantine/core';
+import {
+  Affix,
+  AppShell,
+  Button,
+  LoadingOverlay,
+  Transition,
+  useMantineTheme,
+} from '@mantine/core';
 
 import { API_URL } from '@/config/config';
 import { io, type Socket } from 'socket.io-client';
@@ -8,6 +15,7 @@ import storage from '@/utils/storage';
 
 import GameFooter from '@/components/GameFooter';
 import GameBoard from '@/components/GameBoard';
+import { IconArrowUp, IconCrown } from '@tabler/icons-react';
 
 export default function GamePage() {
   const theme = useMantineTheme();
@@ -19,6 +27,7 @@ export default function GamePage() {
   const [nextPlayer, setNextPlayer] = useState('');
   const [players, setPlayers] = useState([]);
   const [logs, setLogs] = useState([]);
+  const [gameActive, setGameActive] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,7 +41,13 @@ export default function GamePage() {
 
     setSocket(newSocket);
 
+    newSocket.on('started', () => {
+      console.log('nice');
+      setGameActive(true);
+    });
+
     newSocket.on('currentPlayer', (player) => {
+      console.log(currentPlayer);
       setCurrentPlayer(player);
     });
 
@@ -56,8 +71,6 @@ export default function GamePage() {
     });
 
     newSocket.on('players', (playersInfo) => {
-      console.log(playersInfo);
-
       setPlayers(playersInfo);
     });
 
@@ -102,7 +115,20 @@ export default function GamePage() {
         playedCards={playedCards}
         players={players}
         drawPile={drawPile}
+        gameActive={gameActive}
       />
+      <Affix position={{ bottom: '20px', right: '20px' }}>
+        <Transition
+          transition="slide-up"
+          mounted={currentPlayer.player_uuid === nextPlayer.player_uuid}
+        >
+          {(transitionStyles) => (
+            <Button leftIcon={<IconCrown size="1rem" />} style={transitionStyles} bg="yellow">
+              Your Turn
+            </Button>
+          )}
+        </Transition>
+      </Affix>
     </AppShell>
   );
 }
