@@ -1,17 +1,16 @@
 import { Stack, Card, Badge, AspectRatio } from '@mantine/core';
 import { IconBrandGit } from '@tabler/icons-react';
-
-interface Props {
-  number: number;
-  stack: boolean;
-  w: number | string;
-}
+import './GitClashCard.scss';
 
 export default function GitClashCard({
-  number = 0,
+  number,
   stack = true,
   w = '30px',
-}: Props) {
+}: {
+  number?: number;
+  stack?: boolean;
+  w?: number | string;
+}) {
   const className = stack ? 'card card--stack' : 'card';
 
   return (
@@ -19,9 +18,11 @@ export default function GitClashCard({
       <Card shadow="sm" radius="md" withBorder p="xs">
         <Stack justify="space-around" h="100%" spacing={'0'}>
           <IconBrandGit size="100%" />
-          <Badge radius="md" size="md">
-            {number}
-          </Badge>
+          {number && (
+            <Badge radius="md" size="md">
+              {number}
+            </Badge>
+          )}
         </Stack>
       </Card>
     </AspectRatio>
