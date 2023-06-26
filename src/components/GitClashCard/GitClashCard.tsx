@@ -1,4 +1,4 @@
-import { Stack, Card, Badge, AspectRatio, Paper, Group, Text, HoverCard } from '@mantine/core';
+import { Stack, Card, Badge, AspectRatio, Paper, Group, Text } from '@mantine/core';
 import {
   IconBrandGit,
   IconExclamationCircle,
@@ -13,7 +13,7 @@ import './GitClashCard.scss';
 
 function GitReset() {
   return (
-    <Card shadow="sm" radius="md" withBorder>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <Icon24Hours />
@@ -29,7 +29,7 @@ function GitReset() {
 
 function GitCherryPick() {
   return (
-    <Card shadow="sm" radius="md" withBorder>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <IconGitCherryPick />
@@ -45,7 +45,7 @@ function GitCherryPick() {
 
 function GitBlame() {
   return (
-    <Card shadow="sm" radius="md" withBorder>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <IconAccessPoint />
@@ -60,7 +60,7 @@ function GitBlame() {
 }
 function GitIgnore() {
   return (
-    <Card shadow="sm" radius="md" withBorder>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <IconBracesOff />
@@ -75,7 +75,7 @@ function GitIgnore() {
 }
 function GitStash() {
   return (
-    <Card shadow="sm" radius="md" withBorder>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <IconInbox />
@@ -90,7 +90,7 @@ function GitStash() {
 }
 function GitMerge() {
   return (
-    <Card shadow="sm" radius="md" withBorder>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <IconGitMerge />
@@ -106,7 +106,7 @@ function GitMerge() {
 
 function Bug() {
   return (
-    <Card shadow="sm" radius="md" withBorder p="xs">
+    <Card shadow="sm" radius="md" withBorder p="xs" h="100%">
       <Stack justify="space-around" h="100%" spacing={'0'}>
         <IconExclamationCircle />
       </Stack>
@@ -116,7 +116,7 @@ function Bug() {
 
 function Placeholder({ number }: { number?: number }) {
   return (
-    <Card shadow="sm" radius="md" withBorder p="xs">
+    <Card shadow="sm" radius="md" withBorder p="xs" h="100%">
       <Stack justify="space-around" h="100%" spacing={'0'}>
         <IconBrandGit size="100%" />
         {number && (
