@@ -1,29 +1,14 @@
-# Program Diploma - Capstone Project
-
-## Project Title
-
-? -- A GitHub-themed Browser Game
-
-GitBlast
-GitClash
-RepoRumble
-CommitChaos
-BranchBrawl
-DevWar
-MergeMayhem
-
-## Author
-
-## Cohort
+# Git Clash - Capstone Project
 
 ## Project Overview
 
-### Description
+### 1.1 Description
+
+**Short**
 
 Git Clash is a turn-based card game that draws inspiration from Git flow and Git commands. It offers a casual and dedicated gaming experience, allowing players to strategically compete using cards representing various Git actions.
 
-<!-- This is a browser game that incorporates the Git flow and Git commands, creating a fun and educational experience for users.
-Git Clash is a casual dedicated deck card game that incorporates the Git flow and Git commands -->
+**Long**
 
 Git Clash is a dedicated turn-based card game that takes its inspiration from Git flow and Git commands. It offers players a casual and engaging experience, combining the world of version control with strategic gameplay.
 
@@ -37,84 +22,147 @@ Through Git Clash, players can explore and experiment with different Git actions
 
 Whether you're a software developer looking for a unique way to reinforce your Git knowledge or simply someone who enjoys turn-based card games, Git Clash offers an immersive experience that combines learning and entertainment. Step into the world of version control, embrace the power of Git commands, and engage in strategic battles to claim victory.
 
-### Problem
+Git Clash is a turn-based card game that draws inspiration from Git flow and Git commands. It offers a casual and dedicated gaming experience, allowing players to strategically compete using cards representing various Git actions.
+
+### 1.2 Problem
 
 The game addresses the need for an engaging and interactive way to learn and reinforce Git commands and best practices.
 
-### User Profile
+### 1.3 User Profile
 
-The end users are developers, particularly those who are familiar with Git and want to enhance their understanding and proficiency. Or just want to have fun.
+The end users are developers, particularly those who are familiar with Git and want to enhance their understanding and proficiency, or simply want to have fun.
 
-### Requirements: Use Cases and Features
+### 1.4 Requirements: Use Cases and Features
 
-- Game Lobby
-- Game Mechanics
-- Git Command Integration
-- Real-time Multiplayer
-- Score Tracking
-- Game Chat
+- Home Page: A page where players can join or create game rooms.
+- Game Page: A page where players actually play the game.
+- Game Mechanics: Turn-based gameplay mechanics with strategic card actions.
+- Git Command Integration: Cards representing various Git commands and actions.
+- Real-time Multiplayer: Ability to play against other players in real-time.
 
-### Tech Stack and APIs
+### 1.5 Tech Stack and APIs
 
-Technologies:
+- Front-end: HTML5, CSS/SCSS, React.js with TypeScript, Mantine, Socket.io, Axios
+- Back-end: Express.js, Socket.io, MySQL, Knex
+- API: Axios for API calls and Socket.io for Web sockets.
+- Libraries: Dicebear for generating random avatars, Mantine for component library, JWT token.
+- Deployment: Netlify, Heroku
+- Domain: Google Domains (gitclash.com)
 
-- React with TypeScript for the client-side
-- Sass for styling
-- Axios for API communication
-- Mantine UI library for UI components
-- Express for the server-side
-- Socket.io for real-time communication
-- SQL database for storing game data
-
-APIs:
-
-- jwt token
-
-## Client-Side Implementation
+## 2. Client-Side Implementation
 
 ### Site Map
 
 - Home
 - Lobby
 - Game Board
-- Profile
+- Rules
 
 ### Screen Details
 
 - Home: A welcoming screen with a login form or user registration option.
-- Lobby: A list of available game rooms, allowing users to join or create their own.
+- Lobby: A waiting area to wait for players to join.
 - Game Board: Displays the game state, including player hands, the discard pile, and the remaining deck.
-- Profile: Shows the user's profile information, game statistics, and leaderboard.
 
-## Server-Side Implementation
+## 3. Server-Side Implementation
 
-### End-Point Descriptions
+### 3.1 End-Point Descriptions
 
-- POST /api/users/register
-- POST /api/users/login
-- GET /api/rooms
-- POST /api/rooms
-- GET /api/rooms/:id
-- POST /api/rooms/:id/join
-- POST /api/rooms/:id/start
-- POST /api/rooms/:id/play
+**REST Endpoints:**
 
-### External APIs that will be consumed
+- HTTP Method: POST
+  - Endpoint: /api/rooms/create
+  - Parameters:
+    - `username` (string): The username of the player.
+    - `avatar` (string): The avatar of the player.
+  - Response:
+    - `token` (string): The JWT token.
+- HTTP Method: POST
+  - Endpoint: /api/rooms/login
+  - Parameters:
+    - `room_uuid` (string): The UUID of the room.
+    - `username` (string): The username of the player.
+    - `avatar` (string): The avatar of the player.
+  - Response:
+    - `token` (string): The JWT token.
 
-### Database Structure
+**Socket.IO Event Handlers:**
 
-- Users table
-- GameRooms table
+- Get Players in a Room
 
-### Authentication/Authorization and Security
+  - Event: getPlayers
+  - Handler: getPlayersHandler
+  - Parameters:
+    - `room_uuid` (string): The UUID of the room.
+
+- Join a Room
+
+  - Event: join
+  - Handler: joinHandler
+  - Parameters:
+    - `room_uuid` (string): The UUID of the room.
+    - `username` (string): The username of the player.
+    - `avatar` (string): The avatar of the player.
+
+- Play a Card
+
+  - Event: playCard
+  - Handler: playCardHandler
+  - Parameters:
+    - `card` (object): The card object containing card information.
+
+- Start the Game
+  - Event: start
+  - Handler: startGameHandler
+  - Parameters: None
+
+### 3.2 External APIs that will be consumed
+
+None.
+
+### 3.3 Database Structure
+
+**Rooms Table**
+Columns:
+
+- `id` (integer, primary key)
+- `uuid` (string, not nullable)
+- `max_players` (integer, not nullable)
+
+**Players Table**
+Columns:
+
+- `id` (integer, primary key)
+- `room_id` (integer, unsigned, foreign key referencing `id` column of `rooms` table)
+- `username` (string, not nullable)
+- `uuid` (string, not nullable)
+- `avatar` (string, not nullable)
+- `online` (boolean, not nullable, default to false)
+
+**Cards Table**
+Columns:
+
+- `id` (integer, primary key)
+- `type` (string, not nullable)
+- `action` (string, not nullable)
+- `comment` (string, not nullable)
+
+**RoomCards Table**
+Columns:
+
+- `id` (integer, primary key)
+- `room_id` (integer, unsigned, foreign key referencing `id` column of `rooms` table)
+- `card_id` (integer, unsigned, foreign key referencing `id` column of `cards` table)
+- `player_id` (integer, unsigned, foreign key referencing `id` column of `players` table)
+
+### 3.4 Authentication/Authorization and Security
 
 - User authentication using JWT
-- Passwords stored securely using hashing algorithms
 - Authorization enforced for accessing game rooms and performing game actions.
 
-## Project Roadmap
+## 4. Project Roadmap
 
-### Phase 1
+**Phase 1**
 
 - Create the database and design the necessary models
 - Build the server boilerplate and establish the connection to the database
@@ -122,12 +170,11 @@ APIs:
 - Build the overall structure of the React app and create high-level components
 - Connect smart components to the API endpoints for data retrieval and manipulation
 - Test and debug the end-to-end functionality of the application
-- Implement basic styling and CSS
 - Code cleanup, testing, and debugging
 - Deployment
 - Demo Day
 
-### Phase 2 (Extra Features)
+**Phase 2**
 
 - Implement additional game features
 - Enhance user experience with animations and sound effects
@@ -135,7 +182,7 @@ APIs:
 - Improve server-side performance and scalability
 - Testing and bug fixing
 
-### Phase 3 (Future Enhancements)
+**Phase 3**
 
 - Implement comprehensive tutorial or documentation section
 - Expand the game to support more players
