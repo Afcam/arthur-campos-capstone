@@ -1,10 +1,24 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MediaQuery, Group, Paper, Stack, Title, Text, Button, ScrollArea } from '@mantine/core';
+import {
+  MediaQuery,
+  Group,
+  Paper,
+  Stack,
+  Title,
+  Text,
+  Button,
+  ScrollArea,
+  Card,
+  Center,
+  Avatar,
+} from '@mantine/core';
 import { IconSwords } from '@tabler/icons-react';
 
 import Activities from '@/components/Activities';
 import ToggleTheme from '@/components/ToggleTheme';
 import GitClashCard from './GitClashCard/GitClashCard';
+import GitClashCardDeck from './GitClashCardDeck';
 
 function Brand() {
   return (
@@ -38,7 +52,7 @@ function RecentActivities({ logs }) {
   );
 }
 
-function Aside({ logs }) {
+function Aside({ logs, player }) {
   return (
     <MediaQuery
       smallerThan="sm"
@@ -48,7 +62,13 @@ function Aside({ logs }) {
     >
       <Stack w="300px" h="100%">
         <Brand />
-        <RecentActivities logs={logs}></RecentActivities>
+        <RecentActivities logs={logs} />
+        <Paper shadow="sm" p="xs" radius="sm" withBorder h="100%">
+          <Group>
+            <Avatar size="3rem" color="blue" src={player.avatar} />
+            <Text fz="md">{player.username}</Text>
+          </Group>
+        </Paper>
       </Stack>
     </MediaQuery>
   );
@@ -73,10 +93,22 @@ function BoardPlayers() {
   );
 }
 
-function BoardDecks(props) {
+function BoardDecks({ drawPile, playedPile }) {
+  const cards = Array(drawPile).fill(null);
   return (
     <Paper shadow="sm" p="xs" radius="sm" withBorder w="66%" h="100%">
-      DECK // <Button onClick={props.onStart}>START</Button>
+      <Group position="center" p="md" h="100%" spacing="xl">
+        <Group spacing="0">
+          {cards.map((card, index) => (
+            <GitClashCard key={index} number={index} w="200px" stack={true} />
+          ))}
+        </Group>
+        <Group spacing="0">
+          {playedPile.map((card, index) => (
+            <GitClashCard key={index} w="200px" stack={true} type={card.type} />
+          ))}
+        </Group>
+      </Group>
     </Paper>
   );
 }
@@ -86,9 +118,43 @@ function BoardCards({ cards }: { cards: [] }) {
     <Paper shadow="sm" p="xs" radius="sm" withBorder>
       <Group position="center" noWrap>
         {cards.map((card, index) => (
-          <GitClashCard key={index} w="150px" stack={false} />
+          <GitClashCard key={index} w="150px" type={card.type} />
         ))}
       </Group>
+    </Paper>
+  );
+}
+
+interface Props {
+  logs: [];
+  onStart: () => void;
+  currentPlayer: { room_uuid: string };
+  nextPlayer: string;
+  handCards: [];
+  playedCards: [];
+  players: [];
+}
+
+function Lobby(props) {
+  return (
+    <Paper w="100%" h="100%" shadow="sm" p="xs" radius="sm" withBorder>
+      <Stack h="100%">
+        <Group w="100%" position="right">
+          <Button onClick={props.onStart}>START</Button>
+        </Group>
+        <Center h="100%">
+          <Group>
+            {props.players.map((player, index) => (
+              <Button key={index} color="gray" radius="md" p="xs" h="100%">
+                <Group>
+                  <Avatar size="4rem" color="blue" src={player.avatar} />
+                  <Text fz="md">{player.username}</Text>
+                </Group>
+              </Button>
+            ))}
+          </Group>
+        </Center>
+      </Stack>
     </Paper>
   );
 }
@@ -99,6 +165,7 @@ function Board({
   nextPlayer,
   handCards,
   playedCards,
+  drawPile,
   players,
 }: {
   onStart: () => void;
@@ -106,28 +173,34 @@ function Board({
   nextPlayer: string;
   handCards: [];
   playedCards: [];
+  drawPile: number;
   players: [];
 }) {
+  const [lobby, setLobby] = useState(true);
+
   return (
     <Stack h="100%" w="100%">
       <BoardHeader room_uuid={currentPlayer.room_uuid} />
-      <Group noWrap h="100%">
-        <BoardDecks onStart={onStart} />
-        <BoardPlayers />
-      </Group>
-      <BoardCards cards={handCards} />
+
+      {lobby ? (
+        <Lobby
+          onStart={() => {
+            setLobby(false);
+            onStart();
+          }}
+          players={players}
+        />
+      ) : (
+        <>
+          <Group noWrap h="100%">
+            <BoardDecks playedPile={playedCards} drawPile={drawPile} />
+            <BoardPlayers />
+          </Group>
+          <BoardCards cards={handCards} />
+        </>
+      )}
     </Stack>
   );
-}
-
-interface Props {
-  logs: [];
-  onStart: () => void;
-  currentPlayer: string;
-  nextPlayer: string;
-  handCards: [];
-  playedCards: [];
-  players: [];
 }
 
 export default function GameBoard({
@@ -137,17 +210,21 @@ export default function GameBoard({
   nextPlayer,
   handCards,
   playedCards,
+  drawPile,
   players,
 }: Props) {
+  console.log(players);
   return (
     <Group h="100%" noWrap>
-      <Aside logs={logs} />
+      <Aside logs={logs} player={currentPlayer} />
+
       <Board
         onStart={onStart}
         currentPlayer={currentPlayer}
         nextPlayer={nextPlayer}
         handCards={handCards}
         playedCards={playedCards}
+        drawPile={drawPile}
         players={players}
       />
     </Group>

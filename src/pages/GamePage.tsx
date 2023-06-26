@@ -13,6 +13,7 @@ export default function GamePage() {
   const theme = useMantineTheme();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [playedCards, setPlayedCards] = useState([]);
+  const [drawPile, setDrawPile] = useState(10);
   const [handCards, setHandCards] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState(undefined);
   const [nextPlayer, setNextPlayer] = useState('');
@@ -48,6 +49,10 @@ export default function GamePage() {
 
     newSocket.on('cardPlayed', ({ player, card }) => {
       setPlayedCards((prevPlayedCards) => [...prevPlayedCards, { player, card }]);
+    });
+
+    newSocket.on('drawPile', (pile) => {
+      setDrawPile(pile);
     });
 
     newSocket.on('players', (playersInfo) => {
@@ -96,6 +101,7 @@ export default function GamePage() {
         handCards={handCards}
         playedCards={playedCards}
         players={players}
+        drawPile={drawPile}
       />
     </AppShell>
   );

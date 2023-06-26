@@ -1,5 +1,4 @@
-import { Avatar, Flex, Footer, Group, Paper, Text, UnstyledButton, Button } from '@mantine/core';
-import { IconLockAccess, IconLockOpen } from '@tabler/icons-react';
+import { Flex, Footer, Group, Paper, Text } from '@mantine/core';
 import ToggleTheme from './ToggleTheme';
 
 interface Props {
@@ -13,27 +12,9 @@ interface Props {
 
 export default function GameFooter({ player }: Props) {
   return (
-    <Footer height={80} py="xs" px="xl">
+    <Footer height={40} py="xs" px="xl">
       <Flex justify="space-between" align="center" h="100%">
-        <Paper>
-          <Button variant="light" color="gray" radius="md" p="xs" h="100%">
-            <Group>
-              <Avatar size={40} color="blue" src={player.avatar} />
-              <div>
-                <Text>{player.username}</Text>
-                <Text size="xs" color="dimmed">
-                  {/* {player.avatar} */}
-                </Text>
-              </div>
-            </Group>
-          </Button>
-        </Paper>
-
-        <Group>
-          {/* <IconLockAccess /> */}
-          <IconLockOpen />
-          <Text>{player.room_uuid}</Text>
-        </Group>
+        <Text>ROOM: {player.room_uuid}</Text>
         <ToggleTheme />
       </Flex>
     </Footer>

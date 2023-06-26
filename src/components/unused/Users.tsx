@@ -1,5 +1,5 @@
 import { Stack, Card, Group, Avatar, Title, Divider } from '@mantine/core';
-import GitClashCardDeck from './GitClashCardDeck';
+import GitClashCardDeck from '../GitClashCardDeck';
 
 export default function Users() {
   const users = Array(7).fill(null);

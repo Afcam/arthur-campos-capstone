@@ -1,6 +1,6 @@
 import { Stack, Flex, Group, Paper, Center, ScrollArea } from '@mantine/core';
 
-import GitClashCardDeck from './GitClashCardDeck';
+import GitClashCardDeck from '../GitClashCardDeck';
 import Users from './Users';
 
 function DecArea() {
