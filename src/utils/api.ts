@@ -1,19 +1,14 @@
 import axios from '@/lib/axios';
-// import socket from '@/lib/socket';
 
-export const joinGameRoomAPI = (roomUUID: string, username: string) =>
-  axios.post(`/api/rooms/join/${roomUUID}`, {
-    room_uuid: roomUUID,
-    username,
-  });
+interface payload {
+  username: string;
+  avatar: string;
+  room_uuid?: string;
+}
 
-export const createGameRoomAPI = (username: string) =>
-  axios.post('/api/rooms/create', {
-    username,
-  });
+export const joinGameRoomAPI = (payload: payload) => axios.post('/api/rooms/join', payload);
+
+export const createGameRoomAPI = (payload: payload) => axios.post('/api/rooms/create', payload);
 
 export const getPlayerInfoAPI = () => axios.get('/api/player');
-
-// Socket
-// export const joinGameRoom = (roomUUID: string) => socket.emit('joinRoom', roomUUID);
-// export const joinGameRoom = (roomUUID: string) => socket.on('joinRoom', roomUUID);
+export const startGameAPI = () => axios.get('/api/player/start');

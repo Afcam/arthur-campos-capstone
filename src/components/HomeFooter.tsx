@@ -8,12 +8,7 @@ export function HomeFooter() {
         <Text fz="xs">Afcam</Text>
 
         <Group>
-          <ActionIcon
-            size="xs"
-            component="a"
-            href="https://github.com/Afcam"
-            variant="filled"
-          >
+          <ActionIcon size="xs" component="a" href="https://github.com/Afcam" variant="filled">
             <IconBrandGithubFilled size="0.75rem" />
           </ActionIcon>
         </Group>

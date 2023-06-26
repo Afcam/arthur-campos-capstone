@@ -3,14 +3,7 @@ import ToggleTheme from '@/components/ToggleTheme';
 
 export function HomeHeader() {
   return (
-    <Header
-      height={{
-        base: 50,
-        md: 70,
-      }}
-      p="md"
-      withBorder={false}
-    >
+    <Header height={{ base: 50, md: 70 }} p="md" withBorder={false}>
       <Flex h="100%" justify="flex-end" align="center">
         <ToggleTheme />
       </Flex>

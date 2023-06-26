@@ -6,7 +6,6 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const token = storage.getToken();
   if (token) {
     config.headers.authorization = `Bearer ${token}`;
-    console.log(token);
   }
 
   config.headers.Accept = 'application/json';

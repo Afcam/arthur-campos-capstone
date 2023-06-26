@@ -9,7 +9,7 @@ import {
 
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
-import NotFound from './components/NotFound/NotFound';
+import NotFound from './components/NotFound';
 
 const myCache = createEmotionCache({ key: 'gitclash' });
 
@@ -25,10 +25,7 @@ export default function App() {
   };
 
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider
         emotionCache={myCache}
         theme={{ colorScheme }}

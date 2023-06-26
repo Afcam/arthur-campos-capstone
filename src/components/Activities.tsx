@@ -2,15 +2,15 @@ import { formatTimestamp } from '@/utils/formatDate';
 import { Text, Timeline, Space } from '@mantine/core';
 import { IconGitCommit } from '@tabler/icons-react';
 
-export function Activities(props) {
+export default function Activities(props) {
   return (
     <Timeline
-      active={props.recentActivities.size}
+      active={props.logs.size}
       bulletSize={24}
       lineWidth={2}
       reverseActive
     >
-      {props.recentActivities.map((item, index) => {
+      {props.logs.map((item, index) => {
         return (
           <Timeline.Item
             key={index}

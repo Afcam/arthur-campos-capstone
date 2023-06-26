@@ -1,6 +1,6 @@
 import { Flex, Footer, Group, Text } from '@mantine/core';
 import { IconLockAccess, IconLockOpen } from '@tabler/icons-react';
-import ToggleTheme from './ToggleTheme';
+import ToggleTheme from '../ToggleTheme';
 
 interface Props {
   roomUUID: string;

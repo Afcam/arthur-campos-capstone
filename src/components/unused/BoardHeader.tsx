@@ -1,13 +1,6 @@
 import { useState } from 'react';
-import {
-  Header,
-  Text,
-  MediaQuery,
-  Burger,
-  useMantineTheme,
-  Flex,
-} from '@mantine/core';
-import ToggleTheme from './ToggleTheme';
+import { Header, Text, MediaQuery, Burger, useMantineTheme, Flex } from '@mantine/core';
+import ToggleTheme from '../ToggleTheme';
 
 export default function BoardHeader() {
   const theme = useMantineTheme();
