@@ -1,54 +1,128 @@
-# Deck of Git Clash:
+## Git Clash Card List
 
-## Annoy card - Disable an amount of commits in the target's branch.
+### Git Merge
 
-## Attack card - End your turn(s) without drawing and force the next player to take two turns in a row.
+- Steal a random card from another player's hand.
+- "Merging your cards with mine. No conflicts here!"
 
-## Branch Protection card - Prevent bugs from affecting your branch until your next turn.
+### Git Push
 
-## Commit card - These can be collected as two or three of a kind and used to remove bugs from your branch. (e.g., merge commit, rebase commit, cherry-pick commit)
+- Force another player to discard a card of their choice.
+- "Pushing your card right off the table. Say goodbye!"
 
-## Defuse card - If a bug card is played, you can play this card instead to remove the bug from your branch.
+### Git Rebase
 
-## Bug card - Unless you have a Defuse card or Branch Protection card, a bug infiltrates your branch and puts you at risk.
+- Swap one of your cards with a card from the Draw Pile.
+- "Rewriting your card history. New card, who dis?"
 
-## Fetch card - Take a card from another player's hand to add to your own.
+### Git Stash
 
-## Nope card - Stops any action except for a Bug card, Defuse card, or Branch Protection card.
+- Hide a card from your hand and draw a new card. Retrieve the stashed card at any time.
+- "Stashing a secret card. I'm the master of surprises!"
 
-## Pull Request card - Force any other player to give you 1 card from their hand. They choose which card to give you.
+### Git Ignore
 
-## See the Future card - Peek at the top 3 cards from the Draw Pile and put them back in the same order.
+- Ignore the effect of an action card played against you.
+- "Ignoring like a pro. Your card won't shake me!"
 
-## Squash and Merge card - Combine two Commit cards of the same kind to remove all bugs from your branch.
+### Git Blame
 
-## Skip card - Immediately end your turn without drawing a card.
+- Force any player to reveal their hand.
+- "Pointing fingers and exposing secrets. What's in your hand?"
 
-## Reverse card - Player ends turn without drawing a card and reverses turn order.
+### Git Cherry-Pick
 
-## Stash card - Hide a card from your hand temporarily and retrieve it later.
+- Steal a specific card from another player's hand.
+- "Cherry-picking the juiciest card. It's mine now!"
 
-## Revert card - Reverse the effects of the last card played by another player.
+### Git Bisect
 
-## Force Push card - Swap hands with another player.
+- Divide the Draw Pile in half and have another player choose one half to give you.
+- "Let's bisect the deck. Split it up, my friend!"
 
-## Code Review card - Look at the top card of the Draw Pile and decide whether to keep it or place it back.
+### Git Reflog
 
-Categories card - TBD (please provide a description for this card)
+- Take a card from the discard pile.
+- "Looking into the past for a hidden gem. Found it!"
 
-Deck of Git Battle cards, including:
-Log card - Draw cards equal to the number of commits in your branch.
-Rebase card - Reorder the cards in your hand in any sequence.
-Force Push card - Swap hands with another player.
-Pull Request card - Force any other player to give you 1 card from their hand. They choose which card to give you.
-Aproval card - Play after a Pull Request card to prevent the exchange.
-Changes Requested card - Play after a Pull Request card to return the exchanged card to the original player.
-Bug card - Draw cards equal to the number of bugs in your branch.
-Fetch card - Take a card from the Draw Pile and add it to your hand.
-Squash card - Combine two Commit cards of the same kind to remove bugs from your branch.
-Amend card - Exchange one card from your hand with a card from the Draw Pile.
-Stash card - Hide a card from your hand temporarily and retrieve it later.
-Revert card - Reverse the effects of the last card played by another player.
-Force Merge card - Take one card from another player's hand and add it to your own.
-Code Review card - Look at the top card of the Draw Pile and decide whether to keep it or place it back.
-Categories card - TBD (please provide a description for this card)
+### Git Amend
+
+- Swap one of your cards with a card from your own discard pile.
+- "Making amendments to my hand. Recycling is the key!"
+
+### Git Clone
+
+- Copy the effects of another player's last action.
+- "Cloning your action. Mimicry at its finest!"
+
+### Git Fetch
+
+- Draw the top two cards from the Draw Pile.
+- "Fetching some fresh cards. More power to me!"
+
+### Git Squash
+
+- Combine two cards from your hand to form a powerful combo.
+- "Squashing cards together for an explosive effect. Watch out!"
+
+### Git Bisect --skip
+
+- Skip your turn without drawing a card.
+- "Bisecting my turn. Sometimes a skip is the best option!"
+
+### Git Pull --rebase
+
+- Shuffle the Draw Pile thoroughly and then draw a card.
+- "Pulling with a rebase for a fresh start. Let's see what I get!"
+
+### Git Reset --hard
+
+- Discard your entire hand and draw a new hand.
+- "Resetting my hand like a pro. Out with the old, in with the new!"
+
+### Git Status
+
+- Peek at the top card of the Draw Pile and decide whether to keep it or place it back.
+- "Checking the status of the upcoming card. Should I keep it or let it go?"
+
+### Git Branch
+
+- Start a new round, allowing all players to discard their hands and draw a fresh hand.
+- "Branching out into a new round. Clean slate for everyone!"
+
+## Git Clash MVP Card List:
+
+### Git Merge
+
+- Steal a random card from another player's hand.
+- "Merge and snatch! Your card is mine now."
+
+### Git Push
+
+- Force another player to discard a card of their choice.
+- "Pushing your card out of existence. Say goodbye!"
+
+### Git Stash
+
+- Hide a card from your hand and draw a new card. Retrieve the stashed card at any time.
+- "Stash and surprise! My secret card awaits."
+
+### Git Ignore
+
+- Ignore the effect of an action card played against you.
+- "Ignoring like a pro. Nothing can shake me!"
+
+### Git Blame
+
+- Force any player to reveal their hand.
+- "Blaming you for your cards. Reveal your secrets!"
+
+### Git Cherry-Pick
+
+- Steal a specific card from another player's hand.
+- "Cherry-picking the best card. It's mine now!"
+
+### Git Reset --hard
+
+- Discard your entire hand and draw a new hand.
+- "Resetting my hand like a pro. A fresh start!"
