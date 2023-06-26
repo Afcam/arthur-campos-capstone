@@ -5,6 +5,7 @@ import {
   AppShell,
   Button,
   LoadingOverlay,
+  Notification,
   Transition,
   useMantineTheme,
 } from '@mantine/core';
@@ -15,7 +16,7 @@ import storage from '@/utils/storage';
 
 import GameFooter from '@/components/GameFooter';
 import GameBoard from '@/components/GameBoard';
-import { IconArrowUp, IconCrown } from '@tabler/icons-react';
+import { IconArrowUp, IconCrown, IconX } from '@tabler/icons-react';
 
 export default function GamePage() {
   const theme = useMantineTheme();
@@ -42,7 +43,14 @@ export default function GamePage() {
     setSocket(newSocket);
 
     newSocket.on('started', () => {
-      console.log('nice');
+      setLogs((prevLog) => [
+        {
+          title: 'START',
+          message: 'The Game Started',
+          timestamp: new Date(),
+        },
+        ...prevLog,
+      ]);
       setGameActive(true);
     });
 
@@ -53,6 +61,14 @@ export default function GamePage() {
 
     newSocket.on('nextPlayer', (player) => {
       console.log(player);
+      setLogs((prevLog) => [
+        {
+          title: 'Next',
+          message: player.player_uuid,
+          timestamp: new Date(),
+        },
+        ...prevLog,
+      ]);
       setNextPlayer(player);
     });
 
@@ -62,8 +78,17 @@ export default function GamePage() {
       setHandCards(cards);
     });
 
-    newSocket.on('cardPlayed', ({ player, card }) => {
-      setPlayedCards((prevPlayedCards) => [...prevPlayedCards, { player, card }]);
+    newSocket.on('cardPlayed', ({ player_uuid, card }) => {
+      console.log(player_uuid);
+      setLogs((prevLog) => [
+        {
+          title: card.type,
+          message: player_uuid,
+          timestamp: new Date(),
+        },
+        ...prevLog,
+      ]);
+      setPlayedCards((prevPlayedCards) => [...prevPlayedCards, { player_uuid, card }]);
     });
 
     newSocket.on('drawPile', (pile) => {
@@ -87,9 +112,17 @@ export default function GamePage() {
     };
   }, []);
 
-  const handleStart = async () => {
+  const handleStart = () => {
     if (socket) {
       socket.emit('start');
+    }
+  };
+
+  const handlePlayCard = (card) => {
+    if (socket && currentPlayer && nextPlayer) {
+      if (currentPlayer.player_uuid === nextPlayer.player_uuid) {
+        socket.emit('playCard', { card });
+      }
     }
   };
 
@@ -109,6 +142,7 @@ export default function GamePage() {
       <GameBoard
         logs={logs}
         onStart={handleStart}
+        playCard={handlePlayCard}
         currentPlayer={currentPlayer}
         nextPlayer={nextPlayer}
         handCards={handCards}

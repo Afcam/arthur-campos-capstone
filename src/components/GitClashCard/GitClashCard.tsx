@@ -134,6 +134,7 @@ export default function GitClashCard({
   stack = false,
   w = '30px',
   type = 'placeholder',
+  onClick,
 }: {
   number?: number;
   stack?: boolean;
@@ -152,23 +153,25 @@ export default function GitClashCard({
 
   return (
     <AspectRatio ratio={63 / 88} w={w} miw="30px" className={className}>
-      {type === 'Git Reset' ? (
-        <GitReset />
-      ) : type === 'Git Cherry-Pick' ? (
-        <GitCherryPick />
-      ) : type === 'Git Blame' ? (
-        <GitBlame />
-      ) : type === 'Git Ignore' ? (
-        <GitIgnore />
-      ) : type === 'Git Stash' ? (
-        <GitStash />
-      ) : type === 'Git Merge' ? (
-        <GitMerge />
-      ) : type === 'Bug' ? (
-        <Bug />
-      ) : (
-        <Placeholder number={number} />
-      )}
+      <div onClick={onClick}>
+        {type === 'Git Reset' ? (
+          <GitReset />
+        ) : type === 'Git Cherry-Pick' ? (
+          <GitCherryPick />
+        ) : type === 'Git Blame' ? (
+          <GitBlame />
+        ) : type === 'Git Ignore' ? (
+          <GitIgnore />
+        ) : type === 'Git Stash' ? (
+          <GitStash />
+        ) : type === 'Git Merge' ? (
+          <GitMerge />
+        ) : type === 'Bug' ? (
+          <Bug />
+        ) : (
+          <Placeholder number={number} />
+        )}
+      </div>
     </AspectRatio>
   );
 }

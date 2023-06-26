@@ -113,12 +113,19 @@ function BoardDecks({ drawPile, playedPile }) {
   );
 }
 
-function BoardCards({ cards }: { cards: [] }) {
+function BoardCards({ cards, playCard }: { cards: []; playCard: (card) => void }) {
   return (
     <Paper shadow="sm" p="xs" radius="sm" withBorder h="250px">
       <Group position="center" noWrap>
         {cards.map((card, index) => (
-          <GitClashCard key={index} w="150px" type={card.type} />
+          <GitClashCard
+            key={index}
+            w="150px"
+            type={card.type}
+            onClick={() => {
+              playCard(card);
+            }}
+          />
         ))}
       </Group>
     </Paper>
@@ -176,6 +183,7 @@ function Lobby(props) {
 
 function Board({
   onStart,
+  playCard,
   currentPlayer,
   nextPlayer,
   handCards,
@@ -185,6 +193,7 @@ function Board({
   gameActive,
 }: {
   onStart: () => void;
+  playCard: (card) => void;
   currentPlayer: { room_uuid: string };
   nextPlayer: string;
   handCards: [];
@@ -205,7 +214,7 @@ function Board({
             <BoardDecks playedPile={playedCards} drawPile={drawPile} />
             <BoardPlayers />
           </Group>
-          <BoardCards cards={handCards} />
+          <BoardCards cards={handCards} playCard={playCard} />
         </>
       )}
     </Stack>
@@ -215,6 +224,7 @@ function Board({
 export default function GameBoard({
   logs,
   onStart,
+  playCard,
   currentPlayer,
   nextPlayer,
   handCards,
@@ -225,6 +235,7 @@ export default function GameBoard({
 }: {
   logs: [];
   onStart: () => void;
+  playCard: (card) => void;
   currentPlayer: { room_uuid: string };
   nextPlayer: string;
   handCards: [];
@@ -239,6 +250,7 @@ export default function GameBoard({
 
       <Board
         onStart={onStart}
+        playCard={playCard}
         currentPlayer={currentPlayer}
         nextPlayer={nextPlayer}
         handCards={handCards}
