@@ -105,7 +105,7 @@ function BoardDecks({ drawPile, playedPile }) {
         </Group>
         <Group spacing="0">
           {playedPile.map((card, index) => (
-            <GitClashCard key={index} w="200px" stack={true} type={card.type} />
+            <GitClashCard key={index} w="200px" stack={true} type={card.card.type} />
           ))}
         </Group>
       </Group>

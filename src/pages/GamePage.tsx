@@ -119,11 +119,17 @@ export default function GamePage() {
   };
 
   const handlePlayCard = (card) => {
-    if (socket && currentPlayer && nextPlayer) {
-      if (currentPlayer.player_uuid === nextPlayer.player_uuid) {
-        socket.emit('playCard', { card });
-      }
+    if (
+      !socket ||
+      !currentPlayer ||
+      !nextPlayer ||
+      currentPlayer.player_uuid !== nextPlayer.player_uuid
+    ) {
+      return;
     }
+
+    setHandCards((prevCards) => prevCards.filter((c) => c.id !== card.id));
+    socket.emit('playCard', { card });
   };
 
   if (!currentPlayer) {
