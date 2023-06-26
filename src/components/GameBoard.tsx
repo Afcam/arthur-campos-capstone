@@ -9,16 +9,15 @@ import {
   Text,
   Button,
   ScrollArea,
-  Card,
   Center,
   Avatar,
+  LoadingOverlay,
 } from '@mantine/core';
 import { IconSwords } from '@tabler/icons-react';
 
 import Activities from '@/components/Activities';
 import ToggleTheme from '@/components/ToggleTheme';
 import GitClashCard from './GitClashCard/GitClashCard';
-import GitClashCardDeck from './GitClashCardDeck';
 
 function Brand() {
   return (
@@ -64,7 +63,7 @@ function Aside({ logs, player }) {
         <Brand />
         <RecentActivities logs={logs} />
         <Paper shadow="sm" p="xs" radius="sm" withBorder h="100%">
-          <Group>
+          <Group h="100%">
             <Avatar size="3rem" color="blue" src={player.avatar} />
             <Text fz="md">{player.username}</Text>
           </Group>
@@ -115,7 +114,7 @@ function BoardDecks({ drawPile, playedPile }) {
 
 function BoardCards({ cards }: { cards: [] }) {
   return (
-    <Paper shadow="sm" p="xs" radius="sm" withBorder>
+    <Paper shadow="sm" p="xs" radius="sm" withBorder h="250px">
       <Group position="center" noWrap>
         {cards.map((card, index) => (
           <GitClashCard key={index} w="150px" type={card.type} />
@@ -123,16 +122,6 @@ function BoardCards({ cards }: { cards: [] }) {
       </Group>
     </Paper>
   );
-}
-
-interface Props {
-  logs: [];
-  onStart: () => void;
-  currentPlayer: { room_uuid: string };
-  nextPlayer: string;
-  handCards: [];
-  playedCards: [];
-  players: [];
 }
 
 function Lobby(props) {
@@ -145,7 +134,16 @@ function Lobby(props) {
         <Center h="100%">
           <Group>
             {props.players.map((player, index) => (
-              <Button key={index} color="gray" radius="md" p="xs" h="100%">
+              <Button
+                key={index}
+                color="gray"
+                radius="md"
+                p="xs"
+                h="100%"
+                disabled={!player.online}
+              >
+                <LoadingOverlay visible={!player.online} overlayBlur={2} />
+
                 <Group>
                   <Avatar size="4rem" color="blue" src={player.avatar} />
                   <Text fz="md">{player.username}</Text>
@@ -212,8 +210,16 @@ export default function GameBoard({
   playedCards,
   drawPile,
   players,
-}: Props) {
-  console.log(players);
+}: {
+  logs: [];
+  onStart: () => void;
+  currentPlayer: { room_uuid: string };
+  nextPlayer: string;
+  handCards: [];
+  playedCards: [];
+  players: [];
+  drawPile: number;
+}) {
   return (
     <Group h="100%" noWrap>
       <Aside logs={logs} player={currentPlayer} />
