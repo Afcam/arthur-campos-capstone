@@ -10,6 +10,7 @@ import {
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
 import NotFound from './components/NotFound';
+import DeckCarousel from './components/DeckCarousel/DeckCarousel';
 
 const myCache = createEmotionCache({ key: 'gitclash' });
 
@@ -25,7 +26,10 @@ export default function App() {
   };
 
   return (
-    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
+    >
       <MantineProvider
         emotionCache={myCache}
         theme={{ colorScheme }}
@@ -36,6 +40,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game" element={<GamePage />} />
+            <Route path="/deck" element={<DeckCarousel />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

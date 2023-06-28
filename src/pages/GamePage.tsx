@@ -1,22 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { io, type Socket } from 'socket.io-client';
 import {
   Affix,
   AppShell,
   Button,
   LoadingOverlay,
-  Notification,
   Transition,
   useMantineTheme,
 } from '@mantine/core';
+import { IconCrown } from '@tabler/icons-react';
 
 import { API_URL } from '@/config/config';
-import { io, type Socket } from 'socket.io-client';
 import storage from '@/utils/storage';
 
 import GameFooter from '@/components/GameFooter';
 import GameBoard from '@/components/GameBoard';
-import { IconArrowUp, IconCrown, IconX } from '@tabler/icons-react';
+import SocketProvider from '@/context/gameSocket/provider';
+
+type Logs = Array<{
+  title: string;
+  message: string;
+  timestamp: Date;
+}>;
 
 export default function GamePage() {
   const theme = useMantineTheme();
@@ -27,14 +33,16 @@ export default function GamePage() {
   const [currentPlayer, setCurrentPlayer] = useState(undefined);
   const [nextPlayer, setNextPlayer] = useState('');
   const [players, setPlayers] = useState([]);
-  const [logs, setLogs] = useState([]);
+  const [logs, setLogs] = useState<Logs>([]);
   const [gameActive, setGameActive] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = storage.getToken();
+
     if (!token) {
       navigate('/');
+      return;
     }
     const newSocket: Socket = io(API_URL, {
       auth: { token: `Bearer ${token}` },
@@ -88,7 +96,10 @@ export default function GamePage() {
         },
         ...prevLog,
       ]);
-      setPlayedCards((prevPlayedCards) => [...prevPlayedCards, { player_uuid, card }]);
+      setPlayedCards((prevPlayedCards) => [
+        ...prevPlayedCards,
+        { player_uuid, card },
+      ]);
     });
 
     newSocket.on('drawPile', (pile) => {
@@ -137,38 +148,47 @@ export default function GamePage() {
   }
 
   return (
-    <AppShell
-      styles={{
-        main: {
-          background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-        },
-      }}
-      footer={<GameFooter player={currentPlayer} />}
-    >
-      <GameBoard
-        logs={logs}
-        onStart={handleStart}
-        playCard={handlePlayCard}
-        currentPlayer={currentPlayer}
-        nextPlayer={nextPlayer}
-        handCards={handCards}
-        playedCards={playedCards}
-        players={players}
-        drawPile={drawPile}
-        gameActive={gameActive}
-      />
-      <Affix position={{ bottom: '20px', right: '20px' }}>
-        <Transition
-          transition="slide-up"
-          mounted={currentPlayer.player_uuid === nextPlayer.player_uuid}
-        >
-          {(transitionStyles) => (
-            <Button leftIcon={<IconCrown size="1rem" />} style={transitionStyles} bg="yellow">
-              Your Turn
-            </Button>
-          )}
-        </Transition>
-      </Affix>
-    </AppShell>
+    <SocketProvider>
+      <AppShell
+        styles={{
+          main: {
+            background:
+              theme.colorScheme === 'dark'
+                ? theme.colors.dark[8]
+                : theme.colors.gray[0],
+          },
+        }}
+        footer={<GameFooter player={currentPlayer} />}
+      >
+        <GameBoard
+          logs={logs}
+          onStart={handleStart}
+          playCard={handlePlayCard}
+          currentPlayer={currentPlayer}
+          nextPlayer={nextPlayer}
+          handCards={handCards}
+          playedCards={playedCards}
+          players={players}
+          drawPile={drawPile}
+          gameActive={gameActive}
+        />
+        <Affix position={{ bottom: '20px', right: '20px' }}>
+          <Transition
+            transition="slide-up"
+            mounted={currentPlayer.player_uuid === nextPlayer.player_uuid}
+          >
+            {(transitionStyles) => (
+              <Button
+                leftIcon={<IconCrown size="1rem" />}
+                style={transitionStyles}
+                bg="yellow"
+              >
+                Your Turn
+              </Button>
+            )}
+          </Transition>
+        </Affix>
+      </AppShell>
+    </SocketProvider>
   );
 }

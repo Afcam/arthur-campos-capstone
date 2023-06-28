@@ -15,8 +15,12 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
 
 const axios = Axios.create({
   baseURL: API_URL,
-  params: { api_key: API_KEY },
 });
+
+// const axios = Axios.create({
+//   baseURL: API_URL,
+//   params: { api_key: API_KEY },
+// });
 
 axios.interceptors.request.use(authRequestInterceptor);
 

@@ -19,22 +19,12 @@ import { IconSwords } from '@tabler/icons-react';
 import Activities from '@/components/Activities';
 import ToggleTheme from '@/components/ToggleTheme';
 import GitClashCard from './GitClashCard/GitClashCard';
+import BrandLogo from './BrandLogo';
 
 function Brand() {
   return (
     <Paper shadow="sm" p="xs" radius="sm" withBorder>
-      <Link
-        to="/"
-        style={{
-          textDecoration: 'none',
-          color: 'inherit',
-        }}
-      >
-        <Group w="100%" position="center">
-          <Title order={1}>Git Clash</Title>
-          <IconSwords />
-        </Group>
-      </Link>
+      <BrandLogo />
     </Paper>
   );
 }
@@ -105,7 +95,12 @@ function BoardDecks({ drawPile, playedPile }) {
         </Group>
         <Group spacing="0">
           {playedPile.map((card, index) => (
-            <GitClashCard key={index} w="200px" stack={true} type={card.card.type} />
+            <GitClashCard
+              key={index}
+              w="200px"
+              stack={true}
+              type={card.card.type}
+            />
           ))}
         </Group>
       </Group>
@@ -113,7 +108,13 @@ function BoardDecks({ drawPile, playedPile }) {
   );
 }
 
-function BoardCards({ cards, playCard }: { cards: []; playCard: (card) => void }) {
+function BoardCards({
+  cards,
+  playCard,
+}: {
+  cards: [];
+  playCard: (card) => void;
+}) {
   return (
     <Paper shadow="sm" p="xs" radius="sm" withBorder h="250px">
       <Group position="center" noWrap>
@@ -160,7 +161,6 @@ function Lobby(props) {
             {props.players.map((player, index) => (
               <Button
                 key={index}
-                color="gray"
                 radius="md"
                 p="xs"
                 h="100%"
