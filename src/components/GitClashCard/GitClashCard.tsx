@@ -79,13 +79,13 @@ function GitBlame() {
 }
 function GitIgnore() {
   return (
-    <Card shadow="sm" radius="md" withBorder h="100%" c="gray">
+    <Card shadow="sm" radius="md" withBorder h="100%" c="purple">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <IconBracesOff />
-          <Text fz="md">Git Blame</Text>
+          <Text fz="md">Git Ignore</Text>
         </Group>
-        <Paper withBorder radius="lg" c="gray">
+        <Paper withBorder radius="lg" c="purple">
           <IconBracesOff size="100%" />
         </Paper>
       </Stack>
@@ -109,13 +109,13 @@ function GitStash() {
 }
 function GitMerge() {
   return (
-    <Card shadow="sm" radius="md" withBorder h="100%" c="purple">
+    <Card shadow="sm" radius="md" withBorder h="100%" c="violet">
       <Stack w="100%" h="100%">
         <Group position="left" noWrap spacing="xs">
           <IconGitMerge />
           <Text fz="md">Git Merge</Text>
         </Group>
-        <Paper withBorder radius="lg" c="purple">
+        <Paper withBorder radius="lg" c="violet">
           <IconGitMerge size="100%" />
         </Paper>
       </Stack>

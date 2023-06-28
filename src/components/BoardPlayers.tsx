@@ -62,15 +62,13 @@ export function BoardPlayers() {
   const { socket } = useSocket();
 
   useEffect(() => {
-    socket?.emit('getPlayersCards');
-
-    socket?.on('playersCards', (data) => {
-      setPlayers(data);
+    socket?.on('nextPlayer', (data) => {
+      setNextPlayer(data.player_uuid);
     });
 
-    socket?.emit('getNextPlayer');
-    socket?.on('nextPlayer', (data) => {
-      setNextPlayer(data);
+    socket?.emit('getPlayersInfo');
+    socket?.on('playersInfo', (data) => {
+      setPlayers(data);
     });
   }, [socket]);
 
@@ -81,12 +79,15 @@ export function BoardPlayers() {
       <Accordion
         maw={'100%'}
         mx="auto"
-        variant="filled"
+        variant="contained"
         defaultValue={nextPlayer}
         classNames={classes}
         className={classes.root}
+        value={nextPlayer}
+        onChange={(target) => {
+          setNextPlayer(target);
+        }}
       >
-        {/* ... Accordion items */}
         {players?.map((p) => (
           <Accordion.Item value={p.player_uuid} key={p.player_uuid}>
             <Accordion.Control icon={<Avatar size={rem(20)} src={p.avatar} />}>
@@ -95,7 +96,7 @@ export function BoardPlayers() {
             <Accordion.Panel>
               <Group>
                 <GitClashCardDeck
-                  numberOfCards={5}
+                  numberOfCards={p.cards}
                   stack={false}
                   hasNumber={false}
                   w="40px"
