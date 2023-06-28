@@ -11,9 +11,11 @@ import {
   Avatar,
   LoadingOverlay,
   Affix,
+  ActionIcon,
   Transition,
+  Modal,
 } from '@mantine/core';
-import { IconCrown } from '@tabler/icons-react';
+import { IconCrown, IconInfoCircle } from '@tabler/icons-react';
 
 import Activities from '@/components/Activities';
 import ToggleTheme from '@/components/ToggleTheme';
@@ -22,6 +24,7 @@ import BrandLogo from './BrandLogo';
 import { useSocket } from '@/context/socket';
 import GameLobby from './GameLobby';
 import { BoardPlayers } from './BoardPlayers';
+import { useDisclosure } from '@mantine/hooks';
 
 function Brand() {
   return (
@@ -55,7 +58,7 @@ function Aside({ logs, player }) {
       <Stack w="300px" h="100%">
         <Brand />
         <RecentActivities logs={logs} />
-        <Paper shadow="sm" p="xs" radius="sm" withBorder h="100%">
+        <Paper shadow="sm" p="xs" radius="sm" withBorder h="fit-content">
           <Group h="100%">
             <Avatar size="3rem" color="blue" src={player.avatar} />
             <Text fz="md">{player.username}</Text>
@@ -66,14 +69,53 @@ function Aside({ logs, player }) {
   );
 }
 
-function BoardHeader({ room_uuid }) {
+function AllCards() {
+  const cards = [
+    'Bug',
+    'Git Merge',
+    'Git Stash',
+    'Git Ignore',
+    'Git Blame',
+    'Git Cherry-Pick',
+    'Git Reset',
+  ];
   return (
-    <Paper shadow="sm" px="xs" py="4px" radius="0" withBorder w="100%">
-      <Group noWrap position="apart" grow={false}>
-        <Text fz="xs"> gitclash / game / {room_uuid}</Text>
-        <ToggleTheme />
-      </Group>
-    </Paper>
+    <Group position="center" w="100%">
+      {cards.map((type, index) => (
+        <GitClashCard key={type} w="150px" type={type} />
+      ))}
+    </Group>
+  );
+}
+
+function BoardHeader({ room_uuid }) {
+  const [opened, { open, close }] = useDisclosure(false);
+
+  return (
+    <>
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="Git Clash Cards"
+        withCloseButton={false}
+        size="80vw"
+      >
+        <AllCards />
+      </Modal>
+
+      <Paper shadow="sm" px="xs" py="4px" radius="0" withBorder w="100%">
+        <Group noWrap position="apart" grow={false}>
+          <Text fz="xs"> gitclash / game / {room_uuid}</Text>
+          <Group>
+            <ActionIcon variant="default" size="1.1rem" onClick={open}>
+              <IconInfoCircle size="1rem" />
+            </ActionIcon>
+
+            <ToggleTheme />
+          </Group>
+        </Group>
+      </Paper>
+    </>
   );
 }
 
