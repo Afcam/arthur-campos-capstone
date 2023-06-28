@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
   MediaQuery,
   Group,
@@ -9,17 +8,19 @@ import {
   Text,
   Button,
   ScrollArea,
-  Center,
   Avatar,
   LoadingOverlay,
-  Stepper,
+  Affix,
+  Transition,
 } from '@mantine/core';
-import { IconSwords } from '@tabler/icons-react';
+import { IconCrown } from '@tabler/icons-react';
 
 import Activities from '@/components/Activities';
 import ToggleTheme from '@/components/ToggleTheme';
 import GitClashCard from './GitClashCard/GitClashCard';
 import BrandLogo from './BrandLogo';
+import { useSocket } from '@/context/socket';
+import GameLobby from './GameLobby';
 
 function Brand() {
   return (
@@ -133,81 +134,37 @@ function BoardCards({
   );
 }
 
-function Lobby(props) {
-  const navigate = useNavigate();
-  return (
-    <Paper w="100%" h="100%" shadow="sm" p="xs" radius="sm" withBorder>
-      <Stack h="100%" p="xl" align="center">
-        <Stepper active={1} w="100%">
-          <Stepper.Step label="Step 1" description="Create" />
-          <Stepper.Step label="Step 2" description="Start" loading />
-          <Stepper.Step label="Step 3" description="Play" />
-        </Stepper>
-        <Title>Waiting for players</Title>
-        <Group position="center">
-          <Button
-            variant="default"
-            onClick={() => {
-              navigate('/');
-            }}
-          >
-            Back
-          </Button>
-          <Button onClick={props.onStart}>START</Button>
-        </Group>
-
-        <Center h="100%">
-          <Group>
-            {props.players.map((player, index) => (
-              <Button
-                key={index}
-                radius="md"
-                p="xs"
-                h="100%"
-                disabled={!player.online}
-              >
-                <LoadingOverlay visible={!player.online} overlayBlur={2} />
-
-                <Group>
-                  <Avatar size="4rem" color="blue" src={player.avatar} />
-                  <Text fz="md">{player.username}</Text>
-                </Group>
-              </Button>
-            ))}
-          </Group>
-        </Center>
-      </Stack>
-    </Paper>
-  );
-}
+type Logs = Array<{
+  title: string;
+  message: string;
+  timestamp: Date;
+}>;
 
 function Board({
-  onStart,
+  logs,
   playCard,
   currentPlayer,
   nextPlayer,
   handCards,
   playedCards,
   drawPile,
-  players,
   gameActive,
 }: {
-  onStart: () => void;
+  logs: [];
   playCard: (card) => void;
   currentPlayer: { room_uuid: string };
   nextPlayer: string;
   handCards: [];
   playedCards: [];
   drawPile: number;
-  players: [];
-  gameActive: boolen;
+  gameActive: boolean;
 }) {
   return (
     <Stack h="100%" w="100%">
       <BoardHeader room_uuid={currentPlayer.room_uuid} />
 
       {!gameActive ? (
-        <Lobby onStart={onStart} players={players} />
+        <GameLobby />
       ) : (
         <>
           <Group noWrap h="100%">
@@ -221,44 +178,130 @@ function Board({
   );
 }
 
-export default function GameBoard({
-  logs,
-  onStart,
-  playCard,
-  currentPlayer,
-  nextPlayer,
-  handCards,
-  playedCards,
-  drawPile,
-  players,
-  gameActive,
-}: {
-  logs: [];
-  onStart: () => void;
-  playCard: (card) => void;
-  currentPlayer: { room_uuid: string };
-  nextPlayer: string;
-  handCards: [];
-  playedCards: [];
-  players: [];
-  drawPile: number;
-  gameActive: boolean;
-}) {
-  return (
-    <Group h="100%" noWrap>
-      <Aside logs={logs} player={currentPlayer} />
+export default function GameBoard() {
+  const [playedCards, setPlayedCards] = useState([]);
+  const [drawPile, setDrawPile] = useState(10);
+  const [handCards, setHandCards] = useState([]);
+  const [currentPlayer, setCurrentPlayer] = useState(undefined);
+  const [nextPlayer, setNextPlayer] = useState('');
+  const [logs, setLogs] = useState<Logs>([]);
+  const [gameActive, setGameActive] = useState(false);
+  const { socket } = useSocket();
 
-      <Board
-        onStart={onStart}
-        playCard={playCard}
-        currentPlayer={currentPlayer}
-        nextPlayer={nextPlayer}
-        handCards={handCards}
-        playedCards={playedCards}
-        drawPile={drawPile}
-        players={players}
-        gameActive={gameActive}
-      />
-    </Group>
+  useEffect(() => {
+    socket?.on('started', () => {
+      console.log('many');
+
+      setLogs((prevLog) => [
+        {
+          title: 'START',
+          message: 'The Game Started',
+          timestamp: new Date(),
+        },
+        ...prevLog,
+      ]);
+      setGameActive(true);
+    });
+
+    socket?.emit('getCurrentPlayer');
+
+    socket?.on('currentPlayer', (player) => {
+      setCurrentPlayer(player);
+    });
+
+    socket?.on('nextPlayer', (player) => {
+      setLogs((prevLog) => [
+        {
+          title: 'Next',
+          message: player.player_uuid,
+          timestamp: new Date(),
+        },
+        ...prevLog,
+      ]);
+      setNextPlayer(player);
+    });
+
+    socket?.on('handCards', (cards) => {
+      setHandCards(cards);
+    });
+
+    socket?.on('cardPlayed', ({ player_uuid, card }) => {
+      setLogs((prevLog) => [
+        {
+          title: card.type,
+          message: player_uuid,
+          timestamp: new Date(),
+        },
+        ...prevLog,
+      ]);
+      setPlayedCards((prevPlayedCards) => [
+        ...prevPlayedCards,
+        { player_uuid, card },
+      ]);
+    });
+
+    socket?.on('drawPile', (pile) => {
+      setDrawPile(pile);
+    });
+
+    socket?.on('joined', (message) => {
+      setLogs((prevLog) => [message, ...prevLog]);
+    });
+
+    socket?.on('left', (message) => {
+      setLogs((prevLog) => [message, ...prevLog]);
+    });
+  }, [socket]);
+
+  const handlePlayCard = (card) => {
+    if (
+      !socket ||
+      !currentPlayer ||
+      !nextPlayer ||
+      currentPlayer.player_uuid !== nextPlayer.player_uuid
+    ) {
+      return;
+    }
+
+    setHandCards((prevCards) => prevCards.filter((c) => c.id !== card.id));
+    socket.emit('playCard', { card });
+  };
+
+  if (!currentPlayer) {
+    return <LoadingOverlay visible />;
+  }
+
+  return (
+    <>
+      <Group h="100%" noWrap>
+        <Aside logs={logs} player={currentPlayer} />
+
+        <Board
+          playCard={handlePlayCard}
+          currentPlayer={currentPlayer}
+          nextPlayer={nextPlayer}
+          handCards={handCards}
+          playedCards={playedCards}
+          drawPile={drawPile}
+          gameActive={gameActive}
+        />
+      </Group>
+      <Affix position={{ bottom: '20px', right: '20px' }}>
+        <Transition
+          transition="slide-up"
+          mounted={currentPlayer.player_uuid === nextPlayer.player_uuid}
+        >
+          {(transitionStyles) => (
+            <Button
+              leftIcon={<IconCrown size="1rem" />}
+              style={transitionStyles}
+              bg="yellow"
+            >
+              Your Turn
+            </Button>
+          )}
+        </Transition>
+      </Affix>
+    </>
   );
 }

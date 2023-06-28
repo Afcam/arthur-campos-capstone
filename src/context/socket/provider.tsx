@@ -13,6 +13,11 @@ export default function SocketProvider({ children }: Props) {
   useEffect(() => {
     const newSocket = getSocket();
     setSocket(newSocket);
+
+    // Clean up the socket connection on component unmount
+    return () => {
+      newSocket?.disconnect();
+    };
   }, []);
 
   return (

@@ -21,10 +21,10 @@ export default function HomePage() {
   ) => {
     try {
       avatar = `https://api.dicebear.com/6.x/adventurer/svg?seed=${username}`;
-      try {
-        const response = await getGithubUserInfo(username);
-        avatar = response.data.avatar_url;
-      } catch (error) {}
+      // try {
+      //   const response = await getGithubUserInfo(username);
+      //   avatar = response.data.avatar_url;
+      // } catch (error) {}
 
       storage.clearToken();
 
