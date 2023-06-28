@@ -21,6 +21,7 @@ import GitClashCard from './GitClashCard/GitClashCard';
 import BrandLogo from './BrandLogo';
 import { useSocket } from '@/context/socket';
 import GameLobby from './GameLobby';
+import { BoardPlayers } from './BoardPlayers';
 
 function Brand() {
   return (
@@ -72,14 +73,6 @@ function BoardHeader({ room_uuid }) {
         <Text fz="xs"> gitclash / game / {room_uuid}</Text>
         <ToggleTheme />
       </Group>
-    </Paper>
-  );
-}
-
-function BoardPlayers() {
-  return (
-    <Paper shadow="sm" p="xs" radius="sm" withBorder h="100%" w="33%">
-      Users
     </Paper>
   );
 }
@@ -190,8 +183,6 @@ export default function GameBoard() {
 
   useEffect(() => {
     socket?.on('started', () => {
-      console.log('many');
-
       setLogs((prevLog) => [
         {
           title: 'START',
