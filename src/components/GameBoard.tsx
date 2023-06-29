@@ -119,14 +119,21 @@ function BoardHeader({ room_uuid }) {
   );
 }
 
-function BoardDecks({ drawPile, playedPile }) {
+function BoardDecks({ drawPile, playedPile, onDraw }) {
   const cards = Array(drawPile).fill(null);
+
   return (
     <Paper shadow="sm" p="xs" radius="sm" withBorder w="66%" h="100%">
       <Group position="center" p="md" h="100%" spacing="xl">
         <Group spacing="0">
           {cards.map((card, index) => (
-            <GitClashCard key={index} number={index} w="200px" stack={true} />
+            <GitClashCard
+              key={index}
+              number={index}
+              w="200px"
+              stack={true}
+              onClick={onDraw}
+            />
           ))}
         </Group>
         <Group spacing="0">
@@ -157,7 +164,7 @@ function BoardCards({
         {cards.map((card, index) => (
           <GitClashCard
             key={index}
-            w="150px"
+            w="9rem"
             type={card.type}
             onClick={() => {
               playCard(card);
@@ -184,6 +191,7 @@ function Board({
   playedCards,
   drawPile,
   gameActive,
+  onDraw,
 }: {
   logs: [];
   playCard: (card) => void;
@@ -203,7 +211,11 @@ function Board({
       ) : (
         <>
           <Group noWrap h="100%">
-            <BoardDecks playedPile={playedCards} drawPile={drawPile} />
+            <BoardDecks
+              playedPile={playedCards}
+              drawPile={drawPile}
+              onDraw={onDraw}
+            />
             <BoardPlayers />
           </Group>
           <BoardCards cards={handCards} playCard={playCard} />
@@ -218,7 +230,9 @@ export default function GameBoard() {
   const [drawPile, setDrawPile] = useState(10);
   const [handCards, setHandCards] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState(undefined);
-  const [nextPlayer, setNextPlayer] = useState('');
+  const [nextPlayer, setNextPlayer] = useState<{ player_uuid: string }>({
+    player_uuid: '',
+  });
   const [logs, setLogs] = useState<Logs>([]);
   const [gameActive, setGameActive] = useState(false);
   const { socket } = useSocket();
@@ -255,6 +269,7 @@ export default function GameBoard() {
     });
 
     socket?.on('handCards', (cards) => {
+      console.log(cards);
       setHandCards(cards);
     });
 
@@ -300,6 +315,18 @@ export default function GameBoard() {
     socket.emit('playCard', { card });
   };
 
+  const handleDrawCard = () => {
+    if (
+      !socket ||
+      !currentPlayer ||
+      !nextPlayer ||
+      currentPlayer.player_uuid !== nextPlayer.player_uuid
+    ) {
+      return;
+    }
+    socket?.emit('drawCard');
+  };
+
   if (!currentPlayer) {
     return <LoadingOverlay visible />;
   }
@@ -317,6 +344,7 @@ export default function GameBoard() {
           playedCards={playedCards}
           drawPile={drawPile}
           gameActive={gameActive}
+          onDraw={handleDrawCard}
         />
       </Group>
       <Affix position={{ bottom: '20px', right: '20px' }}>
