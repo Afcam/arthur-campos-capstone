@@ -1,16 +1,36 @@
 import { useState } from 'react';
-import { Timeline, Text, Input, Button, Group, Stack, Paper, Space } from '@mantine/core';
-import { IconPlus, IconGitPullRequest, IconMessageDots, IconFileInfo } from '@tabler/icons-react';
+import {
+  Timeline,
+  Text,
+  Input,
+  Button,
+  Group,
+  Stack,
+  Paper,
+  Space,
+} from '@mantine/core';
+import {
+  IconPlus,
+  IconGitPullRequest,
+  IconMessageDots,
+  IconFileInfo,
+} from '@tabler/icons-react';
+
+interface RoomCreationFormProps {
+  username: string;
+  setUsername: (value: string) => void;
+  onSubmit: () => void;
+}
 
 function RoomCreationForm({
   username,
   setUsername,
   onSubmit,
-}: {
-  username: string;
-  setUsername: (value: string) => void;
-  onSubmit: () => void;
-}) {
+}: RoomCreationFormProps) {
+  const handleSubmit = () => {
+    onSubmit();
+  };
+
   return (
     <Paper w="250px" shadow="xs" radius="md" p="md" mt="md" withBorder>
       <Stack>
@@ -20,9 +40,14 @@ function RoomCreationForm({
           onChange={(e) => {
             setUsername(e.target.value);
           }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSubmit();
+            }
+          }}
         />
 
-        <Button compact onClick={onSubmit}>
+        <Button compact onClick={handleSubmit}>
           <Text fz="sm">Enter as </Text>
           <Space w="xs" />
           <Text fw={700}>{username}</Text>
@@ -41,6 +66,10 @@ function RoomJoiningForm({
   onRoomUUIDChange: (value: string) => void;
   onMenuStateChange: () => void;
 }) {
+  const handleSubmit = () => {
+    onMenuStateChange();
+  };
+
   return (
     <Paper w="250px" shadow="xs" radius="md" p="md" mt="md" withBorder>
       <Stack>
@@ -50,9 +79,14 @@ function RoomJoiningForm({
           onChange={(e) => {
             onRoomUUIDChange(e.target.value);
           }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSubmit();
+            }
+          }}
         />
 
-        <Button compact onClick={onMenuStateChange}>
+        <Button compact onClick={handleSubmit}>
           <Text fz="sm">Commit to </Text>
           <Space w="xs" />
           <Text fw={700}>{`gitclash/ ${roomUUID || ''}`}</Text>
@@ -72,15 +106,26 @@ export default function SplashScreen({
   const [activeStep, setActiveStep] = useState(1);
   const [menuState, setMenuState] = useState(0);
 
+  const handleRoomCreationSubmit = () => {
+    onSubmit(username, 'avatar', roomUUID);
+  };
+
+  const handleNewGameClick = () => {
+    setRoomUUID('');
+    setMenuState(1);
+  };
+
+  const handleRoomJoiningMenuClick = () => {
+    setMenuState(1);
+  };
+
   return (
     <>
       {menuState === 1 ? (
         <RoomCreationForm
           username={username}
           setUsername={setUsername}
-          onSubmit={() => {
-            onSubmit(username, 'avatar', roomUUID);
-          }}
+          onSubmit={handleRoomCreationSubmit}
         />
       ) : (
         <Timeline
@@ -104,13 +149,7 @@ export default function SplashScreen({
 
             {activeStep === 2 && (
               <Group position="center" mt="md">
-                <Button
-                  leftIcon={<IconPlus />}
-                  onClick={() => {
-                    setRoomUUID('');
-                    setMenuState(1);
-                  }}
-                >
+                <Button leftIcon={<IconPlus />} onClick={handleNewGameClick}>
                   New Game
                 </Button>
               </Group>
@@ -133,9 +172,7 @@ export default function SplashScreen({
               <RoomJoiningForm
                 roomUUID={roomUUID}
                 onRoomUUIDChange={setRoomUUID}
-                onMenuStateChange={() => {
-                  setMenuState(1);
-                }}
+                onMenuStateChange={handleRoomJoiningMenuClick}
               />
             )}
           </Timeline.Item>

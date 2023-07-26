@@ -1,17 +1,36 @@
-import { Group, Text, Footer, ActionIcon } from '@mantine/core';
-import { IconBrandGithubFilled } from '@tabler/icons-react';
+import {
+  Group,
+  Footer,
+  Title,
+  Tooltip,
+  Button,
+  useMantineTheme,
+} from '@mantine/core';
+import { IconBrandGithub } from '@tabler/icons-react';
 
 export function HomeFooter() {
-  return (
-    <Footer height={38} px="md" py="xs" withBorder={false}>
-      <Group position="apart" align="center" h="100%">
-        <Text fz="xs">Afcam</Text>
+  const theme = useMantineTheme();
 
-        <Group>
-          <ActionIcon size="xs" component="a" href="https://github.com/Afcam" variant="filled">
-            <IconBrandGithubFilled size="0.75rem" />
-          </ActionIcon>
-        </Group>
+  return (
+    <Footer height="fit-content" px="md" py="xs" withBorder={false}>
+      <Group position="apart">
+        <Title order={6} size="0.75rem">
+          © 2023 Afcam
+        </Title>
+        <Tooltip label="gitclash repository" openDelay={300}>
+          <Button
+            px="5px"
+            compact
+            component="a"
+            variant="subtle"
+            href="https://github.com/Afcam/gitclash"
+          >
+            <IconBrandGithub
+              size="1rem"
+              color={theme.colorScheme === 'dark' ? 'white' : 'black'}
+            />
+          </Button>
+        </Tooltip>
       </Group>
     </Footer>
   );

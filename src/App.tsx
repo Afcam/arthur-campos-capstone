@@ -6,6 +6,7 @@ import {
   createEmotionCache,
   type ColorScheme,
 } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
@@ -36,11 +37,11 @@ export default function App() {
         withGlobalStyles
         withNormalizeCSS
       >
+        <Notifications />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/game" element={<GamePage />} />
-            <Route path="/deck" element={<DeckCarousel />} />
+            <Route path="/game/:id" element={<GamePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
