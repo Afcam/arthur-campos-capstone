@@ -1,1 +1,1 @@
-import * as viteClient from 'vite/client';
+/// <reference types="vite/client" />

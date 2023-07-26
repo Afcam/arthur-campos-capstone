@@ -1,8 +1,6 @@
 {
-  "extends": ["stylelint-config-standard-scss", "stylelint-config-sass-guidelines"],
-  "plugins": ["stylelint-scss"],
-  "rules": {
-    "value-keyword-case": ["lower", { "ignoreKeywords": ["/^optimizeLegibility$/i"] }],
-    "max-nesting-depth": 2
-  }
+	"extends": "stylelint-config-standard-scss",
+	"rules": {
+		"max-nesting-depth": 3
+	}
 }
