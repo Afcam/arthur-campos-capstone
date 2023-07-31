@@ -5,6 +5,7 @@ import {
 	createEmotionCache,
 	type ColorScheme,
 } from '@mantine/core'
+import {SocketProvider} from '../context/SocketContext'
 
 const myCache = createEmotionCache({key: 'gitclash'})
 
@@ -24,18 +25,20 @@ export function AppProvider({children}: ProvidersProps) {
 	}
 
 	return (
-		<ColorSchemeProvider
-			colorScheme={colorScheme}
-			toggleColorScheme={toggleColorScheme}
-		>
-			<MantineProvider
-				emotionCache={myCache}
-				theme={{colorScheme}}
-				withGlobalStyles
-				withNormalizeCSS
+		<SocketProvider url="http://localhost:3000">
+			<ColorSchemeProvider
+				colorScheme={colorScheme}
+				toggleColorScheme={toggleColorScheme}
 			>
-				{children}
-			</MantineProvider>
-		</ColorSchemeProvider>
+				<MantineProvider
+					emotionCache={myCache}
+					theme={{colorScheme}}
+					withGlobalStyles
+					withNormalizeCSS
+				>
+					{children}
+				</MantineProvider>
+			</ColorSchemeProvider>
+		</SocketProvider>
 	)
 }
